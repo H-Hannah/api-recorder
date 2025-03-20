@@ -1,6 +1,6 @@
 // API 配置
 export const API_CONFIG = {
-    API_KEY: 'sk-2ad6054618c9427585c72170b47f327e',
+    API_KEY: 'your-key',
     BASE_URL: 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
     MODEL_NAME: 'qwen-plus'
 };
