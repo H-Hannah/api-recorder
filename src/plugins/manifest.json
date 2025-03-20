@@ -1,0 +1,63 @@
+{
+  "name": "接口测试助手",
+  "manifest_version": 2,
+  "version": "1.0.0",
+  "description": "接口测试用例录制插件",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "browser_action": {
+    "default_icon": "assets/icon48.png",
+    "default_title": "接口测试助手",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "management",
+    "debugger",
+    "webRequest",
+    "webNavigation",
+    "webRequestBlocking",
+    "storage",
+    "tabs",
+    "<all_urls>",
+    "http://*/*",
+    "https://*/*",
+    "cookies",
+    "contextMenus",
+    "browsingData",
+    "unlimitedStorage"
+  ],
+  "background": {
+    "scripts": [
+      "js/background.js",
+      "js/chunk-vendors.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "js/chunk-vendors.js",
+        "js/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    "popup1.html"
+  ],
+  "omnibox": {
+    "keyword": "pscs"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

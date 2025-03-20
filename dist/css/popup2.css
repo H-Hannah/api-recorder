@@ -1,0 +1,46 @@
+
+.el-table[data-v-087d1d1e] {
+  border-radius: 8px;
+  margin: 20px 0 !important;
+}
+.el-table th[data-v-087d1d1e] {
+  background-color: #f5f7fa !important;
+  color: #606266;
+  font-weight: 600;
+}
+.el-table--border th[data-v-087d1d1e] {
+  border-right: 1px solid #ebeef5;
+}
+[data-v-087d1d1e] .markdown-body {
+  text-align: left;
+  line-height: 1.6;
+}
+[data-v-087d1d1e] .markdown-body h3 {
+  margin-top: 1.5em;
+  font-size: 1.3em;
+  border-bottom: 1px solid #eaecef;
+}
+[data-v-087d1d1e] .markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+[data-v-087d1d1e] .markdown-body table th,[data-v-087d1d1e] .markdown-body table td {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+}
+[data-v-087d1d1e] .markdown-body table th {
+  background-color: #f6f8fa;
+}
+[data-v-087d1d1e] .markdown-body pre {
+  background-color: #f6f8fa;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+}
+[data-v-087d1d1e] .markdown-body code {
+  background-color: rgba(27,31,35,0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+

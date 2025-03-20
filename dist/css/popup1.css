@@ -1,0 +1,41 @@
+.popup-header[data-v-66e699d9] {
+  height: 30px;
+  font-size: 15px;
+  color: #f5f5f5;
+  background-color: #2b3a91;
+  font-weight: bolder;
+  display: flex;
+  justify-content: space-between;
+}
+.popup-header-button[data-v-66e699d9] {
+  background-color: #ffffff;
+}
+.popup-header-button .el-button[data-v-66e699d9] {
+  height: 30px;
+}
+.popup-middle[data-v-66e699d9] {
+  height: 65px;
+  padding: 4px 10px;
+}
+.record-middle-list[data-v-66e699d9] {
+  height: 40px;
+  display: block;
+  overflow: auto;
+  margin-left: 5px;
+}
+.record-middle-list-row[data-v-66e699d9] {
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #303133;
+  font-weight: bold;
+  overflow-wrap: break-word;
+  font-family: system-ui, "PingFang SC", STHeiti, sans-serif;
+}
+.popup-footer[data-v-66e699d9] {
+  height: 30px;
+  line-height: 30px;
+  font-size: 10px;
+  color: #f5f5f5;
+  background-color: #2b3a91;
+}
+
