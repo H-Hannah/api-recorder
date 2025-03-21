@@ -13,6 +13,53 @@ class Recorder {
         this.traffic = {};
         this.activeTabId = 0;
         this.debuggeeId = null;
+        // 初始化时清空存储
+        window.chrome.storage.local.set({"traffic": '', "isRecording": false});
+    }
+
+    // 开始录制
+    startRecording(tab) {
+        window.chrome.storage.local.set({
+            "traffic": '',
+            "isRecording": true
+        });
+        this.status = 'recording';
+        this.activeTabId = tab.id;
+        this.debuggeeId = {tabId: tab.id};
+        groupList = [{id: 1, name: '默认分组', counter: 0}];
+        
+        chrome.debugger.attach(this.debuggeeId, "1.3", () => {
+            if (chrome.runtime.lastError) {
+                console.error('Debugger attach error:', chrome.runtime.lastError);
+                return;
+            }
+            chrome.debugger.sendCommand(this.debuggeeId, "Network.enable", {
+                extraHTTPHeaders: true  // 启用额外的 HTTP 头信息
+            }, () => {
+                if (chrome.runtime.lastError) {
+                    console.error('Network.enable error:', chrome.runtime.lastError);
+                }
+            });
+        });
+
+        chrome.debugger.onEvent.removeListener(this.onDebuggerEvent);
+        chrome.debugger.onEvent.addListener((debuggeeId, message, params) => {
+            this.onDebuggerEvent(debuggeeId, message, params);
+        });
+
+        // 唤起操作弹窗
+        window.chrome.tabs.sendMessage(tab.id, {action: "add_popup1"});
+        // 新弹窗传输数据
+        window.chrome.runtime.sendMessage({action: 'update_transactions', data: groupList})
+        // 广播到所有标签页
+        chrome.tabs.query({}, (tabs) => {
+            tabs.forEach((tab) => {
+                chrome.tabs.sendMessage(tab.id, {
+                    action: 'update_transactions',
+                    data: groupList
+                });
+            });
+        });
     }
 
     // 保存录制
@@ -34,7 +81,6 @@ class Recorder {
             })
         })
         window.chrome.storage.local.set({"traffic": JSON.stringify(traffic)});
-        // 重置
         groupList = [{id: 1, name: '默认分组', counter: 0}];
         this.traffic = {};
     }
@@ -52,51 +98,13 @@ class Recorder {
     // 停止录制
     stopRecording() {
         this.status = 'stopped';
+        window.chrome.storage.local.set({"isRecording": false});
+        chrome.debugger.onEvent.removeListener(this.onDebuggerEvent);
         if (this.debuggeeId) {
             chrome.debugger.detach(this.debuggeeId);
             this.debuggeeId = null;
         }
         this.saveRecording();
-    }
-
-    // 开始录制
-    startRecording(tab) {
-        window.chrome.storage.local.set({"traffic": ''});
-        this.status = 'recording';
-        this.activeTabId = tab.id;
-        this.debuggeeId = {tabId: tab.id};
-        
-        chrome.debugger.attach(this.debuggeeId, "1.3", () => {
-            if (chrome.runtime.lastError) {
-                console.error('Debugger attach error:', chrome.runtime.lastError);
-                return;
-            }
-            chrome.debugger.sendCommand(this.debuggeeId, "Network.enable", {
-                extraHTTPHeaders: true  // 启用额外的 HTTP 头信息
-            }, () => {
-                if (chrome.runtime.lastError) {
-                    console.error('Network.enable error:', chrome.runtime.lastError);
-                }
-            });
-        });
-
-        chrome.debugger.onEvent.addListener((debuggeeId, message, params) => {
-            this.onDebuggerEvent(debuggeeId, message, params);
-        });
-
-        // 唤起操作弹窗
-        window.chrome.tabs.sendMessage(tab.id, {action: "add_popup1"});
-        // 新弹窗传输数据
-        window.chrome.runtime.sendMessage({action: 'update_transactions', data: groupList})
-        // 广播到所有标签页
-        chrome.tabs.query({}, (tabs) => {
-            tabs.forEach((tab) => {
-                chrome.tabs.sendMessage(tab.id, {
-                    action: 'update_transactions',
-                    data: groupList
-                });
-            });
-        });
     }
 
     // 监听调试器事件
@@ -106,6 +114,7 @@ class Recorder {
         // 监听请求发送
         if (message === "Network.requestWillBeSent") {
             if (params.type !== 'XHR' && params.type !== 'Fetch') return;
+            if (!params.request.url.includes('/api')) return;
 
             const key = `${params.request.method}_${params.requestId}`;
             this.traffic[key] = {
@@ -118,12 +127,11 @@ class Recorder {
                 requestType: params.type,
                 timestamp: params.timestamp * 1000,
                 tabId: this.activeTabId,
-                group_key: groupList[groupList.length - 1].id
+                group_key: groupList[groupList.length - 1].id,
+                counted: false  // 添加计数标记
             };
-
-            // 更新计数器并发送分组信息
-            groupList[groupList.length - 1].counter++;
-            window.chrome.runtime.sendMessage({action: 'update_transactions',data: groupList});
+            // groupList[groupList.length - 1].counter++;
+            // window.chrome.runtime.sendMessage({action: 'update_transactions',data: groupList});
         }
 
         // 添加请求头额外信息监听
@@ -143,8 +151,8 @@ class Recorder {
         // 监听响应接收
         if (message === "Network.responseReceived") {
             if (params.type !== 'XHR' && params.type !== 'Fetch') return;
-
-            // 从已保存的请求信息中获取method
+            if (!params.response.url.includes('/api')) return;
+            
             const trafficKeys = Object.keys(this.traffic);
             const key = trafficKeys.find(k => k.endsWith(params.requestId));
             
@@ -158,11 +166,7 @@ class Recorder {
                 this.traffic[key].statusCode = params.response.status;
                 this.traffic[key].statusText = params.response.statusText;
                 this.traffic[key].mimeType = params.response.mimeType;
-
-                // 获取响应体
                 this.getResponseBody(debuggeeId, params.requestId, key);
-                
-                // 更新计数器
                 if (!this.traffic[key].counted) {
                     groupList[groupList.length - 1].counter++;
                     this.traffic[key].counted = true;
@@ -273,5 +277,22 @@ window.chrome.runtime.onMessage.addListener(messageHandler);
 window.chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === 'install') {
         window.chrome.storage.local.clear();
+    }
+});
+
+// 监听标签页更新
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status === 'complete' && recorder.status === 'recording') {
+        const debuggeeId = {tabId: tabId};
+        chrome.debugger.attach(debuggeeId, "1.3", () => {
+            chrome.debugger.sendCommand(debuggeeId, "Network.enable");
+        });
+    }
+});
+
+// 监听标签页激活
+chrome.tabs.onActivated.addListener((activeInfo) => {
+    if (recorder.status === 'recording') {
+        recorder.activeTabId = activeInfo.tabId;
     }
 });

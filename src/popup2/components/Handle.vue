@@ -71,37 +71,47 @@
               <span v-else>无</span>
             </template>
           </el-table-column>
-          <!-- AI 输出列 -->
-          <el-table-column label="AI 输出" align="center" width="200">
+          <!-- AI 分析输出列 -->
+          <el-table-column label="AI 分析请求" align="center" width="200">
             <template #default="scope">
               <template v-if="scope.row.aiOutput">
                 <el-tag effect="plain" type="success" @click="showAIOutput(scope.row)" style="cursor: pointer">
                   查看分析结果
                 </el-tag>
               </template>
-              <el-tag v-else-if="scope.row.isAnalyzing" effect="plain" type="warning">
-                <i class="el-icon-loading"></i> AI分析中...
+              <el-tag v-else-if="scope.row.isAnalyzing" effect="plain" type="success">
+                <i class="el-icon-loading"></i> AI 分析中...
               </el-tag>
-              <el-tag v-else effect="plain" type="info">等待分析</el-tag>
+              <el-button v-else type="success" size="small" link @click="aiAnalyze(scope.row)">
+                分析接口
+              </el-button>
+            </template>
+          </el-table-column>
+          <!-- AI 测试用例列 -->
+          <el-table-column label="AI 测试用例" align="center" width="200">
+            <template #default="scope">
+              <template v-if="scope.row.aiTestCase">
+                <el-tag effect="plain" type="warning" @click="showAITestCase(scope.row)" style="cursor: pointer">
+                  查看测试用例
+                </el-tag>
+              </template>
+              <el-tag v-else-if="scope.row.isGenerating" effect="plain" type="warning">
+                <i class="el-icon-loading"></i> AI 生成中...
+              </el-tag>
+              <el-button v-else type="warning" size="small" link @click="aiGeneration(scope.row)">
+                生成用例
+              </el-button>
             </template>
           </el-table-column>
         </el-table-column>
       </el-table>
     </div>
-    <!-- 添加 AI 输出抽屉 -->
-    <el-drawer
-      v-model="drawerVisible"
-      title="AI 分析结果"
-      direction="rtl"
-      size="50%"
-    >
-      <div class="markdown-body" style="padding: 20px;" v-html="currentAIOutput"></div>
+    <!-- 通用抽屉组件 -->
+    <el-drawer v-model="drawerConfig.visible" :title="drawerConfig.title" direction="rtl" size="50%">
+      <div class="markdown-body" style="padding: 20px;" v-html="drawerConfig.content"></div>
     </el-drawer>
     <div style="text-align: center">
-      <el-button type="success" @click="aiHandle" :loading="isAnalyzing">
-        <el-icon><Upload /></el-icon> {{ isAnalyzing ? 'AI 分析中...' : 'AI 分析请求' }}
-      </el-button>
-      <el-button type="primary" @click="saveForButton" style="margin-right: 20px">
+      <el-button type="primary" @click="saveForButton">
         <el-icon><Download /></el-icon> 导出 JSON
       </el-button>
     </div>
@@ -109,27 +119,39 @@
 </template>
 
 <script>
-import { Upload, Download } from '@element-plus/icons-vue'
+import { Download } from '@element-plus/icons-vue'
 import { API_CONFIG, PROMPTS } from '../../utils/prompts.js';
 import MarkdownIt from 'markdown-it';
 const md = new MarkdownIt();
 
 export default {
   name: "Handle",
-  components: {Upload,Download},
+  components: {Download},
   data() {
     return {
       recordData: [],
       selectList: {},
       isAnalyzing: false,
-      drawerVisible: false,
-      currentAIOutput: ''
+      drawerConfig: {
+        visible: false,
+        title: '',
+        content: ''
+      }
     }
   },
   methods: {
     // 表格选择同步数据
     handleSelection(selection, id) {
       this.selectList[id] = selection;
+    },
+
+    // 获取选中数据
+    getSelectedData() {
+      let selectedData = [];
+      for (let key in this.selectList) {
+        selectedData.push(...this.selectList[key]);
+      }
+      return selectedData;
     },
 
     // 根据请求方法获取对应的颜色
@@ -152,7 +174,6 @@ export default {
         console.log("录制数据详情：", temp);
         if (temp && temp.length > 0) {
           that.recordData = temp;
-
         } else {
           that.$message({
             message: '未获取到录制内容！',
@@ -162,70 +183,55 @@ export default {
       });
     },
 
-    // AI分析处理
-    async aiHandle() {
-      if (this.isAnalyzing) return;  // 如果正在分析，则不执行
-      this.isAnalyzing = true;  // 设置整体分析状态
+    // AI 大模型请求
+    async aiRequest(data, prompt) {
+      const requestBody = {
+        model: API_CONFIG.MODEL_NAME,
+        input: {
+          messages: [{
+            role: "user",
+            content: prompt.replace('{requestData}', JSON.stringify(data))
+          }]
+        }
+      };
+
+      const response = await fetch(API_CONFIG.BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${API_CONFIG.API_KEY}`
+        },
+        body: JSON.stringify(requestBody)
+      });
+      const result = await response.json();
+      return md.render(result.output.text.trim());
+    },
+
+    // AI 接口分析处理
+    async aiAnalyze(row) {
       try {
-        let selectedData = [];
-        for (let key in this.selectList) {
-          this.selectList[key].forEach((item) => {
-            selectedData.push(item);
-          });
-        }
-
-        if (!selectedData || selectedData.length === 0) {
-          this.$message({
-            message: '请先选择需要分析的数据！',
-            type: 'warning'
-          });
-          return;
-        }
-
-        // 遍历选中的请求进行处理
-        for (let item of selectedData) {
-          try {
-            item.isAnalyzing = true;
-            const requestBody = {
-              model: API_CONFIG.MODEL_NAME,
-              input: {
-                messages: [{
-                  role: "user",
-                  content: (() => {
-                    let prompt = PROMPTS.ANALYZE_API;
-                    return prompt.replace('{requestData}', JSON.stringify(item));
-                  })()
-                }]
-              }
-            };
-
-            // 发送请求到通义千问
-            const response = await fetch(API_CONFIG.BASE_URL, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${API_CONFIG.API_KEY}`
-              },
-              body: JSON.stringify(requestBody)
-            });
-
-            if (!response.ok) {
-              throw new Error(`请求大模型失败: ${response.status}`);
-            }
-
-            const result = await response.json();
-            const htmlContent = md.render(result.output.text.trim());
-            item.aiOutput = htmlContent;
-
-          } catch (error) {
-            console.error('AI 分析出错：', error);
-            item.aiOutput = '分析失败：' + error.message;
-          }finally{
-            item.isAnalyzing = false;
-          }
-        }
+        row.isAnalyzing = true;
+        row.aiOutput = await this.aiRequest(row, PROMPTS.ANALYZE_API);
+        this.showAIOutput(row);
+      } catch (error) {
+        console.error('AI 分析出错：', error);
+        row.aiOutput = '分析失败：' + error.message;
       } finally {
-        this.isAnalyzing = false;
+        row.isAnalyzing = false;
+      }
+    },
+
+    // AI 生成测试用例
+    async aiGeneration(row) {
+      try {
+        row.isGenerating = true;
+        row.aiTestCase = await this.aiRequest(row, PROMPTS.GENERATION_CASE);
+        this.showAITestCase(row);
+      } catch (error) {
+        console.error('AI 生成测试用例出错：', error);
+        row.aiTestCase = '生成失败：' + error.message;
+      } finally {
+        row.isGenerating = false;
       }
     },
 
@@ -236,21 +242,12 @@ export default {
 
     // 直接导出符合MS平台JSON数据
     async saveForButton() {
-      // 收集选中的数据
-      let selectedData = [];
-      for (let key in this.selectList) {
-        this.selectList[key].forEach((item) => {
-          selectedData.push(item);
-        });
-      }
-
-      // 验证是否有选中的数据
-      if (!selectedData || selectedData.length === 0) {
+      const selectedData = this.getSelectedData();
+      if (!selectedData.length) {
         this.$message({message: '请先选择需要导出的数据！',type: 'warning'});
         return;
       }
 
-      // 转换数据格式保存
       const formattedData = {};
       selectedData.forEach((item, index) => {
         const requestKey = `${item.method} ${item.url} [${item.requestId}]`;
@@ -275,7 +272,7 @@ export default {
       this.downloadJson(formattedData);
     },
 
-    // 下载JSON文件
+    // 下载 JSON 文件
     downloadJson(data) {
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = window.URL.createObjectURL(blob);
@@ -290,12 +287,22 @@ export default {
       document.body.removeChild(a);
     },
 
-    // 显示 AI 输出
+    // 显示 AI 分析输出
     showAIOutput(row) {
-      this.currentAIOutput = row.aiOutput;
-      this.drawerVisible = true;
+      this.drawerConfig = {
+        visible: true,
+        title: 'AI 分析结果',
+        content: row.aiOutput
+      };
     },
 
+    showAITestCase(row) {
+      this.drawerConfig = {
+        visible: true,
+        title: 'AI 测试用例',
+        content: row.aiTestCase
+      };
+    },
   },
   created() {
     this.dataHandler();

@@ -32,6 +32,9 @@
     "browsingData",
     "unlimitedStorage"
   ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "scripts": [
       "js/background.js",

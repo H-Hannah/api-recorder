@@ -71,7 +71,7 @@ export default {
       inputName: '',
       groupList: []
     }
-  },
+  }
 }
 </script>
 
