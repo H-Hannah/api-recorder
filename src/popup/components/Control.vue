@@ -1,14 +1,17 @@
 <template>
-  <!-- todo 可扩展自定义录制选项 -->
-  <div>API RECORD</div>
+  <div class="boot">正在打开录制抽屉…</div>
 </template>
 
 <script>
-export default {
-  name: "App"
-}
+export default { name: 'Control' }
 </script>
 
-<style lang="less" scoped>
-
+<style scoped>
+.boot {
+  width: 200px;
+  padding: 16px;
+  font-size: 13px;
+  color: #606266;
+  text-align: center;
+}
 </style>

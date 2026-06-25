@@ -1,6 +1,6 @@
 {
   "name": "接口测试助手",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "version": "1.0.0",
   "description": "接口测试用例录制插件",
   "icons": {
@@ -8,7 +8,7 @@
     "48": "assets/icon48.png",
     "128": "assets/icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "assets/icon48.png",
     "default_title": "接口测试助手",
     "default_popup": "popup.html"
@@ -16,51 +16,26 @@
   "permissions": [
     "tabs",
     "storage",
-    "activeTab",
-    "management",
-    "debugger",
-    "webRequest",
-    "webNavigation",
-    "webRequestBlocking",
-    "storage",
-    "tabs",
-    "<all_urls>",
-    "http://*/*",
-    "https://*/*",
-    "cookies",
-    "contextMenus",
-    "browsingData",
-    "unlimitedStorage"
+    "scripting"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "http://*/*",
+    "https://*/*"
   ],
   "background": {
-    "scripts": [
-      "js/background.js",
-      "js/chunk-vendors.js"
-    ],
-    "persistent": true
+    "service_worker": "sw.js"
   },
   "content_scripts": [
     {
-      "all_frames": false,
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "js/chunk-vendors.js",
-        "js/content.js"
-      ],
-      "run_at": "document_start"
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["js/content.js"],
+      "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
-    "popup1.html"
-  ],
-  "omnibox": {
-    "keyword": "pscs"
-  },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+    {
+      "resources": ["drawer.html", "js/page-hook.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
