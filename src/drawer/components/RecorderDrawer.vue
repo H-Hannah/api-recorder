@@ -92,15 +92,45 @@
           <button type="button" class="btn btn-sm btn-primary" :disabled="selectedRows.length < 1" @click="openIngest('api')">
             保存接口
           </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-accent"
+            :disabled="!canSaveCases"
+            @click="openIngest('api_cases')"
+          >
+            保存用例
+          </button>
           <button type="button" class="btn btn-sm btn-warn" :disabled="selectedRows.length < 2" @click="openIngest('scenario')">
             保存场景
           </button>
-          <button type="button" class="btn btn-sm" @click="exportJson">导出 JSON</button>
         </div>
-        <p class="hint">已选 {{ selectedRows.length }} 条 · 可多选批量保存接口 · 点击行查看详情</p>
+        <p class="hint">已选 {{ selectedRows.length }} 条 · 先「保存接口」再「保存用例」· 点击行查看详情</p>
+        <div class="list-toolbar">
+          <label class="select-all">
+            <input
+              ref="selectAllChk"
+              type="checkbox"
+              class="chk"
+              :checked="allFilteredSelected"
+              :disabled="!filteredRecords.length"
+              @change="toggleSelectAll"
+            />
+            <span>全选</span>
+          </label>
+          <input
+            v-model.trim="filterText"
+            type="search"
+            class="filter-input"
+            placeholder="筛选 method、path、URL、状态码…"
+          />
+          <span v-if="filterText" class="filter-count">{{ filteredRecords.length }}/{{ records.length }}</span>
+        </div>
         <div class="list-scroll">
+          <div v-if="!filteredRecords.length" class="empty empty--filter">
+            {{ filterText ? '无匹配记录，请调整筛选条件' : '暂无记录' }}
+          </div>
           <div
-            v-for="(item, idx) in records"
+            v-for="(item, idx) in filteredRecords"
             :key="item.requestId || idx"
             class="row row-select"
             :class="{ on: isSelected(item), 'row-saved': isRecordSaved(item) }"
@@ -143,9 +173,8 @@
 import PlatformConfig from './PlatformConfig.vue'
 import PlatformIngestDialog from './PlatformIngestDialog.vue'
 import * as PlatformClient from '../../services/platform-client.js'
-import { formatHeadersArray, formatExportJson, downloadJsonFile } from '../../utils/dataHelpers.js'
 import { notifyIngestResult } from '../../utils/notify.js'
-import { loadSavedMarks, markRecordsSaved, isRecordSaved as checkRecordSaved } from '../../utils/savedMarks.js'
+import { loadSavedMarks, markRecordsSaved, isRecordSaved as checkRecordSaved, getRecordApiId } from '../../utils/savedMarks.js'
 
 export default {
   name: 'RecorderDrawer',
@@ -160,6 +189,7 @@ export default {
       status: 'stopped',
       records: [],
       selectedRows: [],
+      filterText: '',
       starting: false,
       platformConfigVisible: false,
       platformConfig: null,
@@ -176,7 +206,31 @@ export default {
       if (this.status === 'recording' || this.status === 'pause') return 'recording'
       if (this.records.length && this.status === 'stopped') return 'review'
       return 'idle'
+    },
+    filteredRecords() {
+      const q = (this.filterText || '').trim().toLowerCase()
+      if (!q) return this.records
+      return this.records.filter((item) => this.recordMatchesFilter(item, q))
+    },
+    allFilteredSelected() {
+      if (!this.filteredRecords.length) return false
+      return this.filteredRecords.every((item) => this.isSelected(item))
+    },
+    someFilteredSelected() {
+      if (!this.filteredRecords.length) return false
+      const n = this.filteredRecords.filter((item) => this.isSelected(item)).length
+      return n > 0 && n < this.filteredRecords.length
+    },
+    canSaveCases() {
+      if (this.selectedRows.length !== 1) return false
+      const row = this.selectedRows[0]
+      if (!checkRecordSaved(row, this.savedMarks)) return false
+      return getRecordApiId(row, this.savedMarks) > 0
     }
+  },
+  updated() {
+    const el = this.$refs.selectAllChk
+    if (el) el.indeterminate = this.someFilteredSelected
   },
   mounted() {
     this.syncHostTabId()
@@ -266,6 +320,7 @@ export default {
       this.starting = true
       this.records = []
       this.selectedRows = []
+      this.filterText = ''
       chrome.runtime.sendMessage({ action: 'start_recording' }, (res) => {
         this.starting = false
         if (chrome.runtime.lastError) {
@@ -282,6 +337,7 @@ export default {
     newSession() {
       this.screen = 'list'
       this.selectedRows = []
+      this.filterText = ''
       this.send('clear_records')
     },
     send(action) {
@@ -319,6 +375,31 @@ export default {
       if (i >= 0) this.selectedRows.splice(i, 1)
       else this.selectedRows.push(item)
     },
+    toggleSelectAll() {
+      if (!this.filteredRecords.length) return
+      if (this.allFilteredSelected) {
+        const ids = new Set(this.filteredRecords.map((r) => r.requestId))
+        this.selectedRows = this.selectedRows.filter((r) => !ids.has(r.requestId))
+        return
+      }
+      const existing = new Set(this.selectedRows.map((r) => r.requestId))
+      for (const item of this.filteredRecords) {
+        if (!existing.has(item.requestId)) {
+          this.selectedRows.push(item)
+        }
+      }
+    },
+    recordMatchesFilter(item, q) {
+      const parts = [
+        item.method,
+        item.path,
+        item.url,
+        item.service,
+        item.host,
+        item.statusCode != null ? String(item.statusCode) : ''
+      ]
+      return parts.join(' ').toLowerCase().includes(q)
+    },
     showPlatformConfig() {
       this.platformConfigVisible = true
     },
@@ -352,6 +433,20 @@ export default {
         this.$message.warning('请至少勾选 1 条接口')
         return
       }
+      if (mode === 'api_cases') {
+        if (selected.length !== 1) {
+          this.$message.warning('保存用例请只选 1 条已入库接口')
+          return
+        }
+        if (!checkRecordSaved(selected[0], this.savedMarks)) {
+          this.$message.warning('请先「保存接口」再生成用例')
+          return
+        }
+        if (getRecordApiId(selected[0], this.savedMarks) <= 0) {
+          this.$message.warning('未找到对应接口 ID，请重新保存接口')
+          return
+        }
+      }
       if (mode === 'scenario' && selected.length < 2) {
         this.$message.warning('保存场景请至少选 2 条')
         return
@@ -370,10 +465,19 @@ export default {
       const savedRecords = [...this.pendingIngestRecords]
       try {
         const payload = { hint, records: savedRecords }
-        const result = this.ingestMode === 'scenario'
-          ? await PlatformClient.ingestScenario(config, payload)
-          : await PlatformClient.ingestApis(config, payload)
-        await markRecordsSaved(savedRecords, 1)
+        let result
+        if (this.ingestMode === 'scenario') {
+          result = await PlatformClient.ingestScenario(config, payload)
+        } else if (this.ingestMode === 'api_cases') {
+          const apiId = getRecordApiId(savedRecords[0], this.savedMarks)
+          result = await PlatformClient.ingestApiCases(config, { ...payload, apiId })
+        } else {
+          result = await PlatformClient.ingestApis(config, payload)
+        }
+        if (this.ingestMode === 'api') {
+          const apiIds = (result?.apis || []).map((a) => a.id)
+          await markRecordsSaved(savedRecords, 1, apiIds)
+        }
         await this.refreshSavedMarks()
         notifyIngestResult(result, this.ingestMode)
         this.ingestDialogVisible = false
@@ -383,13 +487,6 @@ export default {
       } finally {
         this.ingesting = false
       }
-    },
-    exportJson() {
-      if (!this.selectedRows.length) {
-        this.$message.warning('请先勾选记录')
-        return
-      }
-      downloadJsonFile(formatExportJson(this.selectedRows, formatHeadersArray), 'RECORD')
     }
   }
 }
@@ -588,8 +685,51 @@ export default {
 .hint {
   font-size: 12px;
   color: #8f959e;
-  margin: 6px 12px 8px;
+  margin: 6px 12px 4px;
   flex-shrink: 0;
+}
+.list-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 8px;
+  flex-shrink: 0;
+}
+.select-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+}
+.filter-input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #1f2329;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.filter-input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+.filter-count {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 10px;
 }
 .list-scroll { padding-top: 0; }
 
@@ -598,6 +738,9 @@ export default {
   color: #8f959e;
   font-size: 13px;
   padding: 48px 16px;
+}
+.empty--filter {
+  padding: 24px 16px;
 }
 
 .row {
@@ -760,6 +903,8 @@ export default {
   border-radius: 6px;
 }
 .btn-sm.btn-primary { background: var(--c-primary); color: #fff; border-color: var(--c-primary); }
+.btn-sm.btn-accent { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+.btn-sm.btn-accent:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-sm.btn-warn { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
 .btn-sm:disabled { opacity: 0.45; cursor: not-allowed; }
 

@@ -20,17 +20,30 @@ export async function loadSavedMarks() {
   }
 }
 
-export async function markRecordsSaved(records, productId) {
+export async function markRecordsSaved(records, productId, apiIds = []) {
   const marks = await loadSavedMarks()
   const now = Date.now()
-  for (const r of records || []) {
+  for (let i = 0; i < (records || []).length; i++) {
+    const r = records[i]
+    const apiId = apiIds[i] || apiIds[0] || 0
+    const meta = { productId, at: now }
+    if (apiId > 0) meta.apiId = apiId
     if (r.requestId) {
-      marks.requestIds[r.requestId] = { productId, at: now }
+      marks.requestIds[r.requestId] = meta
     }
     const fp = recordFingerprint(r.method, r.url)
-    marks.fingerprints[fp] = { productId, at: now }
+    marks.fingerprints[fp] = meta
   }
   await setChromeStorage({ [STORAGE_KEY]: marks })
+}
+
+export function getRecordApiId(record, marks) {
+  if (!record || !marks) return 0
+  if (record.requestId && marks.requestIds[record.requestId]?.apiId) {
+    return marks.requestIds[record.requestId].apiId
+  }
+  const fp = recordFingerprint(record.method, record.url)
+  return marks.fingerprints[fp]?.apiId || 0
 }
 
 export function isRecordSaved(record, marks) {

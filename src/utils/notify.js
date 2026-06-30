@@ -13,6 +13,19 @@ export function notifyIngestResult(result, mode) {
     })
     return
   }
+  const datasets = result?.datasets || []
+  if (datasets.length) {
+    const preview = datasets.slice(0, 3).map((d) => d.name || d.dataset_key).join('、')
+    const suffix = datasets.length > 3 ? ` 等共 ${datasets.length} 条` : ` · 共 ${datasets.length} 条`
+    ElNotification({
+      title: '测试用例已生成',
+      message: preview + suffix,
+      type: 'success',
+      duration: 5500,
+      position: 'top-right'
+    })
+    return
+  }
   const apis = result?.apis || []
   if (!apis.length) {
     ElNotification({

@@ -22,7 +22,7 @@
           placeholder="可选，如：Brief / Tracker 模块"
           resize="none"
         />
-        <p class="field-hint">运行环境在 Web 端执行时选择；入库按 URL 路径自动分到各服务目录</p>
+        <p class="field-hint">{{ fieldHint }}</p>
       </el-form-item>
     </el-form>
 
@@ -30,7 +30,7 @@
       <div class="dialog-footer-center">
         <el-button class="footer-btn" @click="$emit('cancel')">取消</el-button>
         <el-button class="footer-btn" type="primary" :loading="loading" @click="confirm">
-          AI 分析并入库
+          {{ confirmLabel }}
         </el-button>
       </div>
     </template>
@@ -58,9 +58,22 @@ export default {
       set(v) { if (!v) this.$emit('cancel') }
     },
     dialogTitle() {
-      return this.mode === 'scenario'
-        ? `保存场景 · ${this.recordCount} 步`
-        : `保存接口 · ${this.recordCount} 个`
+      if (this.mode === 'scenario') return `保存场景 · ${this.recordCount} 步`
+      if (this.mode === 'api_cases') return '保存用例 · 单接口多案例'
+      return `保存接口 · ${this.recordCount} 个`
+    },
+    confirmLabel() {
+      if (this.mode === 'api_cases') return 'AI 生成用例'
+      return 'AI 分析并入库'
+    },
+    fieldHint() {
+      if (this.mode === 'api_cases') {
+        return '基于已入库接口与录制响应，AI 生成多条 test_datasets 用例（含断言）'
+      }
+      if (this.mode === 'scenario') {
+        return '多步线性场景；运行环境在 Web 端执行时选择'
+      }
+      return '仅保存接口概览（无断言）；入库时自动匹配 BETA/PRE/PROD 全部环境 URL'
     }
   },
   watch: {

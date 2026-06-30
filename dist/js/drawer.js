@@ -7897,17 +7897,6 @@ exports["default"] = unlock;
 
 /***/ }),
 
-/***/ "1185":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_RecorderDrawer_vue_vue_type_style_index_0_id_f5772274_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("9250");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_RecorderDrawer_vue_vue_type_style_index_0_id_f5772274_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_RecorderDrawer_vue_vue_type_style_index_0_id_f5772274_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "1254":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8911,13 +8900,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 
 var iceCreamRound = /* @__PURE__ */pluginVue_exportHelper["default"](_sfc_main, [["render", _sfc_render]]);
 exports["default"] = iceCreamRound;
-
-/***/ }),
-
-/***/ "18bc":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -16472,6 +16454,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 
 var document = /* @__PURE__ */pluginVue_exportHelper["default"](_sfc_main, [["render", _sfc_render]]);
 exports["default"] = document;
+
+/***/ }),
+
+/***/ "21a6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -33833,6 +33822,29 @@ $({ target: 'Object', stat: true }, {
 
 /***/ }),
 
+/***/ "4fadd":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("d039");
+var isObject = __webpack_require__("861d");
+var classof = __webpack_require__("c6b6");
+var ARRAY_BUFFER_NON_EXTENSIBLE = __webpack_require__("d86b");
+
+// eslint-disable-next-line es/no-object-isextensible -- safe
+var $isExtensible = Object.isExtensible;
+var FAILS_ON_PRIMITIVES = fails(function () { $isExtensible(1); });
+
+// `Object.isExtensible` method
+// https://tc39.es/ecma262/#sec-object.isextensible
+module.exports = (FAILS_ON_PRIMITIVES || ARRAY_BUFFER_NON_EXTENSIBLE) ? function isExtensible(it) {
+  if (!isObject(it)) return false;
+  if (ARRAY_BUFFER_NON_EXTENSIBLE && classof(it) == 'ArrayBuffer') return false;
+  return $isExtensible ? $isExtensible(it) : true;
+} : $isExtensible;
+
+
+/***/ }),
+
 /***/ "5006":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -34637,6 +34649,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 
 var locationInformation = /* @__PURE__ */pluginVue_exportHelper["default"](_sfc_main, [["render", _sfc_render]]);
 exports["default"] = locationInformation;
+
+/***/ }),
+
+/***/ "5246":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -40835,6 +40854,23 @@ module.exports = classof(global.process) == 'process';
 
 /***/ }),
 
+/***/ "6062":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var collection = __webpack_require__("6d61");
+var collectionStrong = __webpack_require__("6566");
+
+// `Set` constructor
+// https://tc39.es/ecma262/#sec-set-objects
+collection('Set', function (init) {
+  return function Set() { return init(this, arguments.length ? arguments[0] : undefined); };
+}, collectionStrong);
+
+
+/***/ }),
+
 /***/ "6069":
 /***/ (function(module, exports) {
 
@@ -41556,6 +41592,218 @@ module.exports = {
   // `String.prototype.at` method
   // https://github.com/mathiasbynens/String.prototype.at
   charAt: createMethod(true)
+};
+
+
+/***/ }),
+
+/***/ "6566":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var defineProperty = __webpack_require__("9bf2").f;
+var create = __webpack_require__("7c73");
+var redefineAll = __webpack_require__("e2cc");
+var bind = __webpack_require__("0366");
+var anInstance = __webpack_require__("19aa");
+var iterate = __webpack_require__("2266");
+var defineIterator = __webpack_require__("7dd0");
+var setSpecies = __webpack_require__("2626");
+var DESCRIPTORS = __webpack_require__("83ab");
+var fastKey = __webpack_require__("f183").fastKey;
+var InternalStateModule = __webpack_require__("69f3");
+
+var setInternalState = InternalStateModule.set;
+var internalStateGetterFor = InternalStateModule.getterFor;
+
+module.exports = {
+  getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
+    var Constructor = wrapper(function (that, iterable) {
+      anInstance(that, Prototype);
+      setInternalState(that, {
+        type: CONSTRUCTOR_NAME,
+        index: create(null),
+        first: undefined,
+        last: undefined,
+        size: 0
+      });
+      if (!DESCRIPTORS) that.size = 0;
+      if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+    });
+
+    var Prototype = Constructor.prototype;
+
+    var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
+
+    var define = function (that, key, value) {
+      var state = getInternalState(that);
+      var entry = getEntry(that, key);
+      var previous, index;
+      // change existing entry
+      if (entry) {
+        entry.value = value;
+      // create new entry
+      } else {
+        state.last = entry = {
+          index: index = fastKey(key, true),
+          key: key,
+          value: value,
+          previous: previous = state.last,
+          next: undefined,
+          removed: false
+        };
+        if (!state.first) state.first = entry;
+        if (previous) previous.next = entry;
+        if (DESCRIPTORS) state.size++;
+        else that.size++;
+        // add to index
+        if (index !== 'F') state.index[index] = entry;
+      } return that;
+    };
+
+    var getEntry = function (that, key) {
+      var state = getInternalState(that);
+      // fast case
+      var index = fastKey(key);
+      var entry;
+      if (index !== 'F') return state.index[index];
+      // frozen object case
+      for (entry = state.first; entry; entry = entry.next) {
+        if (entry.key == key) return entry;
+      }
+    };
+
+    redefineAll(Prototype, {
+      // `{ Map, Set }.prototype.clear()` methods
+      // https://tc39.es/ecma262/#sec-map.prototype.clear
+      // https://tc39.es/ecma262/#sec-set.prototype.clear
+      clear: function clear() {
+        var that = this;
+        var state = getInternalState(that);
+        var data = state.index;
+        var entry = state.first;
+        while (entry) {
+          entry.removed = true;
+          if (entry.previous) entry.previous = entry.previous.next = undefined;
+          delete data[entry.index];
+          entry = entry.next;
+        }
+        state.first = state.last = undefined;
+        if (DESCRIPTORS) state.size = 0;
+        else that.size = 0;
+      },
+      // `{ Map, Set }.prototype.delete(key)` methods
+      // https://tc39.es/ecma262/#sec-map.prototype.delete
+      // https://tc39.es/ecma262/#sec-set.prototype.delete
+      'delete': function (key) {
+        var that = this;
+        var state = getInternalState(that);
+        var entry = getEntry(that, key);
+        if (entry) {
+          var next = entry.next;
+          var prev = entry.previous;
+          delete state.index[entry.index];
+          entry.removed = true;
+          if (prev) prev.next = next;
+          if (next) next.previous = prev;
+          if (state.first == entry) state.first = next;
+          if (state.last == entry) state.last = prev;
+          if (DESCRIPTORS) state.size--;
+          else that.size--;
+        } return !!entry;
+      },
+      // `{ Map, Set }.prototype.forEach(callbackfn, thisArg = undefined)` methods
+      // https://tc39.es/ecma262/#sec-map.prototype.foreach
+      // https://tc39.es/ecma262/#sec-set.prototype.foreach
+      forEach: function forEach(callbackfn /* , that = undefined */) {
+        var state = getInternalState(this);
+        var boundFunction = bind(callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+        var entry;
+        while (entry = entry ? entry.next : state.first) {
+          boundFunction(entry.value, entry.key, this);
+          // revert to the last existing entry
+          while (entry && entry.removed) entry = entry.previous;
+        }
+      },
+      // `{ Map, Set}.prototype.has(key)` methods
+      // https://tc39.es/ecma262/#sec-map.prototype.has
+      // https://tc39.es/ecma262/#sec-set.prototype.has
+      has: function has(key) {
+        return !!getEntry(this, key);
+      }
+    });
+
+    redefineAll(Prototype, IS_MAP ? {
+      // `Map.prototype.get(key)` method
+      // https://tc39.es/ecma262/#sec-map.prototype.get
+      get: function get(key) {
+        var entry = getEntry(this, key);
+        return entry && entry.value;
+      },
+      // `Map.prototype.set(key, value)` method
+      // https://tc39.es/ecma262/#sec-map.prototype.set
+      set: function set(key, value) {
+        return define(this, key === 0 ? 0 : key, value);
+      }
+    } : {
+      // `Set.prototype.add(value)` method
+      // https://tc39.es/ecma262/#sec-set.prototype.add
+      add: function add(value) {
+        return define(this, value = value === 0 ? 0 : value, value);
+      }
+    });
+    if (DESCRIPTORS) defineProperty(Prototype, 'size', {
+      get: function () {
+        return getInternalState(this).size;
+      }
+    });
+    return Constructor;
+  },
+  setStrong: function (Constructor, CONSTRUCTOR_NAME, IS_MAP) {
+    var ITERATOR_NAME = CONSTRUCTOR_NAME + ' Iterator';
+    var getInternalCollectionState = internalStateGetterFor(CONSTRUCTOR_NAME);
+    var getInternalIteratorState = internalStateGetterFor(ITERATOR_NAME);
+    // `{ Map, Set }.prototype.{ keys, values, entries, @@iterator }()` methods
+    // https://tc39.es/ecma262/#sec-map.prototype.entries
+    // https://tc39.es/ecma262/#sec-map.prototype.keys
+    // https://tc39.es/ecma262/#sec-map.prototype.values
+    // https://tc39.es/ecma262/#sec-map.prototype-@@iterator
+    // https://tc39.es/ecma262/#sec-set.prototype.entries
+    // https://tc39.es/ecma262/#sec-set.prototype.keys
+    // https://tc39.es/ecma262/#sec-set.prototype.values
+    // https://tc39.es/ecma262/#sec-set.prototype-@@iterator
+    defineIterator(Constructor, CONSTRUCTOR_NAME, function (iterated, kind) {
+      setInternalState(this, {
+        type: ITERATOR_NAME,
+        target: iterated,
+        state: getInternalCollectionState(iterated),
+        kind: kind,
+        last: undefined
+      });
+    }, function () {
+      var state = getInternalIteratorState(this);
+      var kind = state.kind;
+      var entry = state.last;
+      // revert to the last existing entry
+      while (entry && entry.removed) entry = entry.previous;
+      // get next entry
+      if (!state.target || !(state.last = entry = entry ? entry.next : state.state.first)) {
+        // or finish the iteration
+        state.target = undefined;
+        return { value: undefined, done: true };
+      }
+      // return step by kind
+      if (kind == 'keys') return { value: entry.key, done: false };
+      if (kind == 'values') return { value: entry.value, done: false };
+      return { value: [entry.key, entry.value], done: false };
+    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
+
+    // `{ Map, Set }.prototype[@@species]` accessors
+    // https://tc39.es/ecma262/#sec-get-map-@@species
+    // https://tc39.es/ecma262/#sec-get-set-@@species
+    setSpecies(CONSTRUCTOR_NAME);
+  }
 };
 
 
@@ -44146,6 +44394,119 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 
 var expand = /* @__PURE__ */pluginVue_exportHelper["default"](_sfc_main, [["render", _sfc_render]]);
 exports["default"] = expand;
+
+/***/ }),
+
+/***/ "6d61":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var global = __webpack_require__("da84");
+var uncurryThis = __webpack_require__("e330");
+var isForced = __webpack_require__("94ca");
+var redefine = __webpack_require__("6eeb");
+var InternalMetadataModule = __webpack_require__("f183");
+var iterate = __webpack_require__("2266");
+var anInstance = __webpack_require__("19aa");
+var isCallable = __webpack_require__("1626");
+var isObject = __webpack_require__("861d");
+var fails = __webpack_require__("d039");
+var checkCorrectnessOfIteration = __webpack_require__("1c7e");
+var setToStringTag = __webpack_require__("d44e");
+var inheritIfRequired = __webpack_require__("7156");
+
+module.exports = function (CONSTRUCTOR_NAME, wrapper, common) {
+  var IS_MAP = CONSTRUCTOR_NAME.indexOf('Map') !== -1;
+  var IS_WEAK = CONSTRUCTOR_NAME.indexOf('Weak') !== -1;
+  var ADDER = IS_MAP ? 'set' : 'add';
+  var NativeConstructor = global[CONSTRUCTOR_NAME];
+  var NativePrototype = NativeConstructor && NativeConstructor.prototype;
+  var Constructor = NativeConstructor;
+  var exported = {};
+
+  var fixMethod = function (KEY) {
+    var uncurriedNativeMethod = uncurryThis(NativePrototype[KEY]);
+    redefine(NativePrototype, KEY,
+      KEY == 'add' ? function add(value) {
+        uncurriedNativeMethod(this, value === 0 ? 0 : value);
+        return this;
+      } : KEY == 'delete' ? function (key) {
+        return IS_WEAK && !isObject(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
+      } : KEY == 'get' ? function get(key) {
+        return IS_WEAK && !isObject(key) ? undefined : uncurriedNativeMethod(this, key === 0 ? 0 : key);
+      } : KEY == 'has' ? function has(key) {
+        return IS_WEAK && !isObject(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
+      } : function set(key, value) {
+        uncurriedNativeMethod(this, key === 0 ? 0 : key, value);
+        return this;
+      }
+    );
+  };
+
+  var REPLACE = isForced(
+    CONSTRUCTOR_NAME,
+    !isCallable(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails(function () {
+      new NativeConstructor().entries().next();
+    }))
+  );
+
+  if (REPLACE) {
+    // create collection constructor
+    Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
+    InternalMetadataModule.enable();
+  } else if (isForced(CONSTRUCTOR_NAME, true)) {
+    var instance = new Constructor();
+    // early implementations not supports chaining
+    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
+    // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
+    var THROWS_ON_PRIMITIVES = fails(function () { instance.has(1); });
+    // most early implementations doesn't supports iterables, most modern - not close it correctly
+    // eslint-disable-next-line no-new -- required for testing
+    var ACCEPT_ITERABLES = checkCorrectnessOfIteration(function (iterable) { new NativeConstructor(iterable); });
+    // for early implementations -0 and +0 not the same
+    var BUGGY_ZERO = !IS_WEAK && fails(function () {
+      // V8 ~ Chromium 42- fails only with 5+ elements
+      var $instance = new NativeConstructor();
+      var index = 5;
+      while (index--) $instance[ADDER](index, index);
+      return !$instance.has(-0);
+    });
+
+    if (!ACCEPT_ITERABLES) {
+      Constructor = wrapper(function (dummy, iterable) {
+        anInstance(dummy, NativePrototype);
+        var that = inheritIfRequired(new NativeConstructor(), dummy, Constructor);
+        if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+        return that;
+      });
+      Constructor.prototype = NativePrototype;
+      NativePrototype.constructor = Constructor;
+    }
+
+    if (THROWS_ON_PRIMITIVES || BUGGY_ZERO) {
+      fixMethod('delete');
+      fixMethod('has');
+      IS_MAP && fixMethod('get');
+    }
+
+    if (BUGGY_ZERO || HASNT_CHAINING) fixMethod(ADDER);
+
+    // weak collections should not contains .clear method
+    if (IS_WEAK && NativePrototype.clear) delete NativePrototype.clear;
+  }
+
+  exported[CONSTRUCTOR_NAME] = Constructor;
+  $({ global: true, forced: Constructor != NativeConstructor }, exported);
+
+  setToStringTag(Constructor, CONSTRUCTOR_NAME);
+
+  if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
+
+  return Constructor;
+};
+
 
 /***/ }),
 
@@ -66277,13 +66638,6 @@ exports["default"] = questionFilled;
 
 /***/ }),
 
-/***/ "9250":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "9263":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -67155,6 +67509,17 @@ const ElRadioButton = Object(with_install["c" /* withNoopInstall */])(radio_butt
 
 
 //# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "9612":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_PlatformIngestDialog_vue_vue_type_style_index_0_id_513bf69c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5246");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_PlatformIngestDialog_vue_vue_type_style_index_0_id_513bf69c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_PlatformIngestDialog_vue_vue_type_style_index_0_id_513bf69c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -72859,12 +73224,12 @@ var vue_runtime_esm_bundler = __webpack_require__("7a23");
 var icon48 = __webpack_require__("e94b");
 var icon48_default = /*#__PURE__*/__webpack_require__.n(icon48);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./src/drawer/components/RecorderDrawer.vue?vue&type=template&id=f5772274&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./src/drawer/components/RecorderDrawer.vue?vue&type=template&id=43596994&scoped=true
 
 
 
-var RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId = function _withScopeId(n) {
-  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-f5772274"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+var RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-43596994"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
 };
 
 var _hoisted_1 = {
@@ -72874,7 +73239,7 @@ var _hoisted_2 = {
   class: "top-bar top-bar--detail"
 };
 
-var _hoisted_3 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_3 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
     class: "header-fill"
   }, null, -1);
@@ -72895,7 +73260,7 @@ var _hoisted_9 = {
   class: "detail-block"
 };
 
-var _hoisted_10 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_10 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("h4", null, "请求头", -1);
 });
 
@@ -72906,7 +73271,7 @@ var _hoisted_12 = {
   class: "detail-block"
 };
 
-var _hoisted_13 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_13 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("h4", null, "请求体", -1);
 });
 
@@ -72917,7 +73282,7 @@ var _hoisted_15 = {
   class: "detail-block"
 };
 
-var _hoisted_16 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_16 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("h4", null, "响应体", -1);
 });
 
@@ -72929,7 +73294,7 @@ var _hoisted_18 = {
   class: "top-bar top-bar--recording"
 };
 
-var _hoisted_19 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_19 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("img", {
     src: icon48_default.a,
     class: "brand-icon",
@@ -72951,7 +73316,7 @@ var _hoisted_23 = {
   class: "top-bar top-bar--center"
 };
 
-var _hoisted_24 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_24 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("img", {
     src: icon48_default.a,
     class: "brand-icon",
@@ -72959,7 +73324,7 @@ var _hoisted_24 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scope
   }, null, -1);
 });
 
-var _hoisted_25 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_25 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("h1", {
     class: "title-center"
   }, "接口录制助手", -1);
@@ -72970,7 +73335,7 @@ var _hoisted_26 = {
   class: "top-bar"
 };
 
-var _hoisted_27 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_27 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("img", {
     src: icon48_default.a,
     class: "brand-icon",
@@ -72989,19 +73354,19 @@ var _hoisted_30 = {
   class: "hero-card"
 };
 
-var _hoisted_31 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_31 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("p", {
     class: "hero-title"
   }, "录制当前页面接口", -1);
 });
 
-var _hoisted_32 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_32 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("p", {
     class: "hero-sub"
   }, "仅捕获 XHR / Fetch · 录制正在查看的标签页", -1);
 });
 
-var _hoisted_33 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_33 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("div", {
     class: "devtools-warn",
     role: "alert"
@@ -73026,7 +73391,7 @@ var _hoisted_40 = {
 };
 var _hoisted_41 = ["data-s"];
 
-var _hoisted_42 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_42 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
     class: "row-arrow"
   }, "›", -1);
@@ -73041,22 +73406,43 @@ var _hoisted_44 = {
 };
 var _hoisted_45 = ["disabled"];
 var _hoisted_46 = ["disabled"];
-var _hoisted_47 = {
+var _hoisted_47 = ["disabled"];
+var _hoisted_48 = {
   class: "hint"
 };
-var _hoisted_48 = {
+var _hoisted_49 = {
+  class: "list-toolbar"
+};
+var _hoisted_50 = {
+  class: "select-all"
+};
+var _hoisted_51 = ["checked", "disabled"];
+
+var _hoisted_52 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", null, "全选", -1);
+});
+
+var _hoisted_53 = {
+  key: 0,
+  class: "filter-count"
+};
+var _hoisted_54 = {
   class: "list-scroll"
 };
-var _hoisted_49 = ["onClick"];
-var _hoisted_50 = ["checked", "onChange"];
-var _hoisted_51 = ["data-m"];
-var _hoisted_52 = ["title"];
-var _hoisted_53 = {
+var _hoisted_55 = {
+  key: 0,
+  class: "empty empty--filter"
+};
+var _hoisted_56 = ["onClick"];
+var _hoisted_57 = ["checked", "onChange"];
+var _hoisted_58 = ["data-m"];
+var _hoisted_59 = ["title"];
+var _hoisted_60 = {
   key: 0,
   class: "saved-badge"
 };
 
-var _hoisted_54 = /*#__PURE__*/RecorderDrawervue_type_template_id_f5772274_scoped_true_withScopeId(function () {
+var _hoisted_61 = /*#__PURE__*/RecorderDrawervue_type_template_id_43596994_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
     class: "row-arrow"
   }, "›", -1);
@@ -73184,18 +73570,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, " 保存接口 ", 8, _hoisted_45), Object(vue_runtime_esm_bundler["createElementVNode"])("button", {
     type: "button",
+    class: "btn btn-sm btn-accent",
+    disabled: !$options.canSaveCases,
+    onClick: _cache[12] || (_cache[12] = function ($event) {
+      return $options.openIngest('api_cases');
+    })
+  }, " 保存用例 ", 8, _hoisted_46), Object(vue_runtime_esm_bundler["createElementVNode"])("button", {
+    type: "button",
     class: "btn btn-sm btn-warn",
     disabled: $data.selectedRows.length < 2,
-    onClick: _cache[12] || (_cache[12] = function ($event) {
+    onClick: _cache[13] || (_cache[13] = function ($event) {
       return $options.openIngest('scenario');
     })
-  }, " 保存场景 ", 8, _hoisted_46), Object(vue_runtime_esm_bundler["createElementVNode"])("button", {
-    type: "button",
-    class: "btn btn-sm",
-    onClick: _cache[13] || (_cache[13] = function () {
-      return $options.exportJson && $options.exportJson.apply($options, arguments);
+  }, " 保存场景 ", 8, _hoisted_47)]), Object(vue_runtime_esm_bundler["createElementVNode"])("p", _hoisted_48, "已选 " + Object(vue_runtime_esm_bundler["toDisplayString"])($data.selectedRows.length) + " 条 · 先「保存接口」再「保存用例」· 点击行查看详情", 1), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_49, [Object(vue_runtime_esm_bundler["createElementVNode"])("label", _hoisted_50, [Object(vue_runtime_esm_bundler["createElementVNode"])("input", {
+    ref: "selectAllChk",
+    type: "checkbox",
+    class: "chk",
+    checked: $options.allFilteredSelected,
+    disabled: !$options.filteredRecords.length,
+    onChange: _cache[14] || (_cache[14] = function () {
+      return $options.toggleSelectAll && $options.toggleSelectAll.apply($options, arguments);
     })
-  }, "导出 JSON")]), Object(vue_runtime_esm_bundler["createElementVNode"])("p", _hoisted_47, "已选 " + Object(vue_runtime_esm_bundler["toDisplayString"])($data.selectedRows.length) + " 条 · 可多选批量保存接口 · 点击行查看详情", 1), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_48, [(Object(vue_runtime_esm_bundler["openBlock"])(true), Object(vue_runtime_esm_bundler["createElementBlock"])(vue_runtime_esm_bundler["Fragment"], null, Object(vue_runtime_esm_bundler["renderList"])($data.records, function (item, idx) {
+  }, null, 40, _hoisted_51), _hoisted_52]), Object(vue_runtime_esm_bundler["withDirectives"])(Object(vue_runtime_esm_bundler["createElementVNode"])("input", {
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+      return $data.filterText = $event;
+    }),
+    type: "search",
+    class: "filter-input",
+    placeholder: "筛选 method、path、URL、状态码…"
+  }, null, 512), [[vue_runtime_esm_bundler["vModelText"], $data.filterText, void 0, {
+    trim: true
+  }]]), $data.filterText ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("span", _hoisted_53, Object(vue_runtime_esm_bundler["toDisplayString"])($options.filteredRecords.length) + "/" + Object(vue_runtime_esm_bundler["toDisplayString"])($data.records.length), 1)) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true)]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_54, [!$options.filteredRecords.length ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", _hoisted_55, Object(vue_runtime_esm_bundler["toDisplayString"])($data.filterText ? '无匹配记录，请调整筛选条件' : '暂无记录'), 1)) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), (Object(vue_runtime_esm_bundler["openBlock"])(true), Object(vue_runtime_esm_bundler["createElementBlock"])(vue_runtime_esm_bundler["Fragment"], null, Object(vue_runtime_esm_bundler["renderList"])($options.filteredRecords, function (item, idx) {
     return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
       key: item.requestId || idx,
       class: Object(vue_runtime_esm_bundler["normalizeClass"])(["row row-select", {
@@ -73209,20 +73614,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "checkbox",
       class: "chk",
       checked: $options.isSelected(item),
-      onClick: _cache[14] || (_cache[14] = Object(vue_runtime_esm_bundler["withModifiers"])(function () {}, ["stop"])),
+      onClick: _cache[16] || (_cache[16] = Object(vue_runtime_esm_bundler["withModifiers"])(function () {}, ["stop"])),
       onChange: function onChange($event) {
         return $options.toggleSelect(item);
       }
-    }, null, 40, _hoisted_50), Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    }, null, 40, _hoisted_57), Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
       class: "method",
       "data-m": item.method
-    }, Object(vue_runtime_esm_bundler["toDisplayString"])(item.method), 9, _hoisted_51), Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    }, Object(vue_runtime_esm_bundler["toDisplayString"])(item.method), 9, _hoisted_58), Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
       class: "path",
       title: item.url
-    }, Object(vue_runtime_esm_bundler["toDisplayString"])(item.path || item.url), 9, _hoisted_52), $options.isRecordSaved(item) ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("span", _hoisted_53, "已入库")) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), _hoisted_54], 10, _hoisted_49);
+    }, Object(vue_runtime_esm_bundler["toDisplayString"])(item.path || item.url), 9, _hoisted_59), $options.isRecordSaved(item) ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("span", _hoisted_60, "已入库")) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), _hoisted_61], 10, _hoisted_56);
   }), 128))])]))], 64)), Object(vue_runtime_esm_bundler["createVNode"])(_component_el_dialog, {
     modelValue: $data.platformConfigVisible,
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
       return $data.platformConfigVisible = $event;
     }),
     title: "配置测试平台",
@@ -73240,17 +73645,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8, ["modelValue"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_PlatformIngestDialog, {
     visible: $data.ingestDialogVisible,
     mode: $data.ingestMode,
-    projects: $data.platformProjects,
-    "platform-config": $data.platformConfig,
     "record-count": $data.pendingIngestRecords.length,
     loading: $data.ingesting,
     onConfirm: $options.handlePlatformIngest,
-    onCancel: _cache[16] || (_cache[16] = function ($event) {
+    onCancel: _cache[18] || (_cache[18] = function ($event) {
       return $data.ingestDialogVisible = false;
     })
-  }, null, 8, ["visible", "mode", "projects", "platform-config", "record-count", "loading", "onConfirm"])]);
+  }, null, 8, ["visible", "mode", "record-count", "loading", "onConfirm"])]);
 }
-// CONCATENATED MODULE: ./src/drawer/components/RecorderDrawer.vue?vue&type=template&id=f5772274&scoped=true
+// CONCATENATED MODULE: ./src/drawer/components/RecorderDrawer.vue?vue&type=template&id=43596994&scoped=true
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -73280,6 +73683,71 @@ function _nonIterableSpread() {
 
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/createForOfIteratorHelper.js
+
+
+
+
+
+
+
+
+function _createForOfIteratorHelper(o, allowArrayLike) {
+  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
+
+  if (!it) {
+    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+      if (it) o = it;
+      var i = 0;
+
+      var F = function F() {};
+
+      return {
+        s: F,
+        n: function n() {
+          if (i >= o.length) return {
+            done: true
+          };
+          return {
+            done: false,
+            value: o[i++]
+          };
+        },
+        e: function e(_e) {
+          throw _e;
+        },
+        f: F
+      };
+    }
+
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  var normalCompletion = true,
+      didErr = false,
+      err;
+  return {
+    s: function s() {
+      it = it.call(o);
+    },
+    n: function n() {
+      var step = it.next();
+      normalCompletion = step.done;
+      return step;
+    },
+    e: function e(_e2) {
+      didErr = true;
+      err = _e2;
+    },
+    f: function f() {
+      try {
+        if (!normalCompletion && it["return"] != null) it["return"]();
+      } finally {
+        if (didErr) throw err;
+      }
+    }
+  };
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
 
@@ -73399,6 +73867,9 @@ var es_number_is_finite = __webpack_require__("f00c");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.trim.js
+var es_string_trim = __webpack_require__("498a");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.json.stringify.js
 var es_json_stringify = __webpack_require__("e9c4");
 
@@ -73416,6 +73887,18 @@ var es_array_find_index = __webpack_require__("c740");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.splice.js
 var es_array_splice = __webpack_require__("a434");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.js
+var es_set = __webpack_require__("6062");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
+var es_array_includes = __webpack_require__("caad");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.includes.js
+var es_string_includes = __webpack_require__("2532");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
+var es_array_join = __webpack_require__("a15b");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.sort.js
 var es_array_sort = __webpack_require__("4e82");
@@ -73536,9 +74019,6 @@ function PlatformConfigvue_type_template_id_0913a5c8_scoped_true_render(_ctx, _c
 }
 // CONCATENATED MODULE: ./src/drawer/components/PlatformConfig.vue?vue&type=template&id=0913a5c8&scoped=true
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.trim.js
-var es_string_trim = __webpack_require__("498a");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
 var es_string_replace = __webpack_require__("5319");
 
@@ -73637,12 +74117,6 @@ function _typeof(obj) {
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__("99af");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
-var es_array_includes = __webpack_require__("caad");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.includes.js
-var es_string_includes = __webpack_require__("2532");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
 var es_string_split = __webpack_require__("1276");
@@ -73922,7 +74396,7 @@ function _testConnection() {
 function listProducts(_x3) {
   return _listProducts.apply(this, arguments);
 }
-/** 获取项目下的运行环境 */
+/** 获取全局运行环境 */
 
 function _listProducts() {
   _listProducts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(config) {
@@ -73966,20 +74440,20 @@ function _listProducts() {
   return _listProducts.apply(this, arguments);
 }
 
-function listEnvironments(_x4, _x5) {
+function listEnvironments(_x4) {
   return _listEnvironments.apply(this, arguments);
 }
 /** 从 URL 推断服务名（anchor / quest / trex 等），供 AI 分目录 */
 
 function _listEnvironments() {
-  _listEnvironments = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(config, productId) {
+  _listEnvironments = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(config) {
     var res, err, list, order;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return fetch(apiUrl(config.baseUrl, "/api/v1/products/".concat(productId, "/environments")), {
+            return fetch(apiUrl(config.baseUrl, '/api/v1/environments'), {
               headers: platform_client_headers(config.apiToken)
             });
 
@@ -74114,27 +74588,26 @@ function stringifyBody(body) {
   }
 }
 /**
- * AI 入库：接口定义（自动分组）
+ * AI 入库：接口定义（仅概览，不含断言）
  */
 
 
-function ingestApis(_x6, _x7) {
+function ingestApis(_x5, _x6) {
   return _ingestApis.apply(this, arguments);
 }
 /**
- * AI 入库：线性场景（自动分组；运行环境在 Web 端执行时选择）
+ * AI 入库：单接口多案例（test_datasets + 断言）
  */
 
 function _ingestApis() {
   _ingestApis = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(config, _ref) {
-    var productId, hint, records;
+    var hint, records;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            productId = _ref.productId, hint = _ref.hint, records = _ref.records;
+            hint = _ref.hint, records = _ref.records;
             return _context6.abrupt("return", ingest(config, {
-              product_id: productId,
               mode: 'api',
               hint: hint || '',
               records: trafficToRecords(records)
@@ -74150,21 +74623,24 @@ function _ingestApis() {
   return _ingestApis.apply(this, arguments);
 }
 
-function ingestScenario(_x8, _x9) {
-  return _ingestScenario.apply(this, arguments);
+function ingestApiCases(_x7, _x8) {
+  return _ingestApiCases.apply(this, arguments);
 }
+/**
+ * AI 入库：线性场景（自动分组；运行环境在 Web 端执行时选择）
+ */
 
-function _ingestScenario() {
-  _ingestScenario = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(config, _ref2) {
-    var productId, hint, records;
+function _ingestApiCases() {
+  _ingestApiCases = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(config, _ref2) {
+    var apiId, hint, records;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            productId = _ref2.productId, hint = _ref2.hint, records = _ref2.records;
+            apiId = _ref2.apiId, hint = _ref2.hint, records = _ref2.records;
             return _context7.abrupt("return", ingest(config, {
-              product_id: productId,
-              mode: 'scenario',
+              mode: 'api_cases',
+              api_id: apiId,
               hint: hint || '',
               records: trafficToRecords(records)
             }));
@@ -74176,6 +74652,34 @@ function _ingestScenario() {
       }
     }, _callee7);
   }));
+  return _ingestApiCases.apply(this, arguments);
+}
+
+function ingestScenario(_x9, _x10) {
+  return _ingestScenario.apply(this, arguments);
+}
+
+function _ingestScenario() {
+  _ingestScenario = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(config, _ref3) {
+    var hint, records;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            hint = _ref3.hint, records = _ref3.records;
+            return _context8.abrupt("return", ingest(config, {
+              mode: 'scenario',
+              hint: hint || '',
+              records: trafficToRecords(records)
+            }));
+
+          case 2:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8);
+  }));
   return _ingestScenario.apply(this, arguments);
 }
 
@@ -74186,16 +74690,16 @@ function mergeIngestHint(hint) {
   return user ? "".concat(user, "\n").concat(AI_HINT_SUFFIX) : AI_HINT_SUFFIX;
 }
 
-function ingest(_x10, _x11) {
+function ingest(_x11, _x12) {
   return _ingest.apply(this, arguments);
 }
 
 function _ingest() {
-  _ingest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(config, payload) {
+  _ingest = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(config, payload) {
     var res, data;
-    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
             if (payload.hint !== undefined) {
               payload = _objectSpread2(_objectSpread2({}, payload), {}, {
@@ -74203,7 +74707,7 @@ function _ingest() {
               });
             }
 
-            _context8.next = 3;
+            _context9.next = 3;
             return fetch(apiUrl(config.baseUrl, '/api/v1/ai/ingest'), {
               method: 'POST',
               headers: platform_client_headers(config.apiToken),
@@ -74211,31 +74715,31 @@ function _ingest() {
             });
 
           case 3:
-            res = _context8.sent;
-            _context8.next = 6;
+            res = _context9.sent;
+            _context9.next = 6;
             return res.json().catch(function () {
               return {};
             });
 
           case 6:
-            data = _context8.sent;
+            data = _context9.sent;
 
             if (res.ok) {
-              _context8.next = 9;
+              _context9.next = 9;
               break;
             }
 
             throw new Error(data.error || "\u5165\u5E93\u5931\u8D25: HTTP ".concat(res.status));
 
           case 9:
-            return _context8.abrupt("return", data);
+            return _context9.abrupt("return", data);
 
           case 10:
           case "end":
-            return _context8.stop();
+            return _context9.stop();
         }
       }
-    }, _callee8);
+    }, _callee9);
   }));
   return _ingest.apply(this, arguments);
 }
@@ -74385,50 +74889,39 @@ var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
 const __exports__ = /*#__PURE__*/exportHelper_default()(PlatformConfigvue_type_script_lang_js, [['render',PlatformConfigvue_type_template_id_0913a5c8_scoped_true_render],['__scopeId',"data-v-0913a5c8"]])
 
 /* harmony default export */ var PlatformConfig = (__exports__);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./src/drawer/components/PlatformIngestDialog.vue?vue&type=template&id=386f1be2&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./src/drawer/components/PlatformIngestDialog.vue?vue&type=template&id=513bf69c&scoped=true
 
 
-
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_withScopeId = function _withScopeId(n) {
-  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-386f1be2"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-513bf69c"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
 };
 
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_1 = {
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_1 = {
   class: "ingest-meta"
 };
 
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_2 = /*#__PURE__*/PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_withScopeId(function () {
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_2 = /*#__PURE__*/PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_withScopeId(function () {
   return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
     class: "meta-label"
   }, "已选录制", -1);
 });
 
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_3 = {
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_3 = {
   class: "meta-badge"
 };
-
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_4 = /*#__PURE__*/PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_withScopeId(function () {
-  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("p", {
-    class: "field-hint"
-  }, "运行环境（BETA/PRE/PROD）在 Web 端执行时选择；入库按 URL 路径自动分到各服务目录", -1);
-});
-
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_5 = {
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_4 = {
+  class: "field-hint"
+};
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_5 = {
   class: "dialog-footer-center"
 };
 
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_6 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("取消");
+var PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_6 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("取消");
 
-var PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_7 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])(" AI 分析并入库 ");
-
-function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_el_option = Object(vue_runtime_esm_bundler["resolveComponent"])("el-option");
-
-  var _component_el_select = Object(vue_runtime_esm_bundler["resolveComponent"])("el-select");
+function PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_el_input = Object(vue_runtime_esm_bundler["resolveComponent"])("el-input");
 
   var _component_el_form_item = Object(vue_runtime_esm_bundler["resolveComponent"])("el-form-item");
-
-  var _component_el_input = Object(vue_runtime_esm_bundler["resolveComponent"])("el-input");
 
   var _component_el_form = Object(vue_runtime_esm_bundler["resolveComponent"])("el-form");
 
@@ -74438,7 +74931,7 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
 
   return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createBlock"])(_component_el_dialog, {
     modelValue: $options.dialogOpen,
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $options.dialogOpen = $event;
     }),
     title: $options.dialogTitle,
@@ -74446,19 +74939,19 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
     "align-center": "",
     class: "app-dialog ingest-dialog",
     "close-on-click-modal": false,
-    onClosed: _cache[4] || (_cache[4] = function ($event) {
+    onClosed: _cache[3] || (_cache[3] = function ($event) {
       return _ctx.$emit('cancel');
     })
   }, {
     footer: Object(vue_runtime_esm_bundler["withCtx"])(function () {
-      return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_5, [Object(vue_runtime_esm_bundler["createVNode"])(_component_el_button, {
+      return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_5, [Object(vue_runtime_esm_bundler["createVNode"])(_component_el_button, {
         class: "footer-btn",
-        onClick: _cache[2] || (_cache[2] = function ($event) {
+        onClick: _cache[1] || (_cache[1] = function ($event) {
           return _ctx.$emit('cancel');
         })
       }, {
         default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
-          return [PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_6];
+          return [PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_6];
         }),
         _: 1
       }), Object(vue_runtime_esm_bundler["createVNode"])(_component_el_button, {
@@ -74468,58 +74961,32 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
         onClick: $options.confirm
       }, {
         default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
-          return [PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_7];
+          return [Object(vue_runtime_esm_bundler["createTextVNode"])(Object(vue_runtime_esm_bundler["toDisplayString"])($options.confirmLabel), 1)];
         }),
         _: 1
       }, 8, ["loading", "onClick"])])];
     }),
     default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
-      return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_1, [PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_2, Object(vue_runtime_esm_bundler["createElementVNode"])("span", PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_3, Object(vue_runtime_esm_bundler["toDisplayString"])($props.recordCount) + " 条", 1)]), Object(vue_runtime_esm_bundler["createVNode"])(_component_el_form, {
+      return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_1, [PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_2, Object(vue_runtime_esm_bundler["createElementVNode"])("span", PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_3, Object(vue_runtime_esm_bundler["toDisplayString"])($props.recordCount) + " 条", 1)]), Object(vue_runtime_esm_bundler["createVNode"])(_component_el_form, {
         "label-position": "top",
         size: "default",
         class: "ingest-form"
       }, {
         default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
           return [Object(vue_runtime_esm_bundler["createVNode"])(_component_el_form_item, {
-            label: "归属项目",
-            required: ""
-          }, {
-            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
-              return [Object(vue_runtime_esm_bundler["createVNode"])(_component_el_select, {
-                modelValue: $data.form.productId,
-                "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-                  return $data.form.productId = $event;
-                }),
-                placeholder: "请选择归属项目",
-                filterable: ""
-              }, {
-                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
-                  return [(Object(vue_runtime_esm_bundler["openBlock"])(true), Object(vue_runtime_esm_bundler["createElementBlock"])(vue_runtime_esm_bundler["Fragment"], null, Object(vue_runtime_esm_bundler["renderList"])($props.projects, function (p) {
-                    return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createBlock"])(_component_el_option, {
-                      key: p.id,
-                      label: p.name,
-                      value: p.id
-                    }, null, 8, ["label", "value"]);
-                  }), 128))];
-                }),
-                _: 1
-              }, 8, ["modelValue"]), PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_hoisted_4];
-            }),
-            _: 1
-          }), Object(vue_runtime_esm_bundler["createVNode"])(_component_el_form_item, {
             label: "业务说明"
           }, {
             default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
               return [Object(vue_runtime_esm_bundler["createVNode"])(_component_el_input, {
                 modelValue: $data.form.hint,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
                   return $data.form.hint = $event;
                 }),
                 type: "textarea",
                 rows: 2,
-                placeholder: "可选，如：T-Rex / Anchor 模块",
+                placeholder: "可选，如：Brief / Tracker 模块",
                 resize: "none"
-              }, null, 8, ["modelValue"])];
+              }, null, 8, ["modelValue"]), Object(vue_runtime_esm_bundler["createElementVNode"])("p", PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_hoisted_4, Object(vue_runtime_esm_bundler["toDisplayString"])($options.fieldHint), 1)];
             }),
             _: 1
           })];
@@ -74530,10 +74997,9 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
     _: 1
   }, 8, ["modelValue", "title"]);
 }
-// CONCATENATED MODULE: ./src/drawer/components/PlatformIngestDialog.vue?vue&type=template&id=386f1be2&scoped=true
+// CONCATENATED MODULE: ./src/drawer/components/PlatformIngestDialog.vue?vue&type=template&id=513bf69c&scoped=true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./src/drawer/components/PlatformIngestDialog.vue?vue&type=script&lang=js
-
 
 /* harmony default export */ var PlatformIngestDialogvue_type_script_lang_js = ({
   name: 'PlatformIngestDialog',
@@ -74542,16 +75008,6 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
     mode: {
       type: String,
       default: 'api'
-    },
-    projects: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    },
-    platformConfig: {
-      type: Object,
-      default: null
     },
     recordCount: {
       type: Number,
@@ -74563,7 +75019,6 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
   data: function data() {
     return {
       form: {
-        productId: null,
         hint: ''
       }
     };
@@ -74578,33 +75033,34 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
       }
     },
     dialogTitle: function dialogTitle() {
-      return this.mode === 'scenario' ? "\u4FDD\u5B58\u573A\u666F \xB7 ".concat(this.recordCount, " \u6B65") : "\u4FDD\u5B58\u63A5\u53E3 \xB7 ".concat(this.recordCount, " \u4E2A");
+      if (this.mode === 'scenario') return "\u4FDD\u5B58\u573A\u666F \xB7 ".concat(this.recordCount, " \u6B65");
+      if (this.mode === 'api_cases') return '保存用例 · 单接口多案例';
+      return "\u4FDD\u5B58\u63A5\u53E3 \xB7 ".concat(this.recordCount, " \u4E2A");
+    },
+    confirmLabel: function confirmLabel() {
+      if (this.mode === 'api_cases') return 'AI 生成用例';
+      return 'AI 分析并入库';
+    },
+    fieldHint: function fieldHint() {
+      if (this.mode === 'api_cases') {
+        return '基于已入库接口与录制响应，AI 生成多条 test_datasets 用例（含断言）';
+      }
+
+      if (this.mode === 'scenario') {
+        return '多步线性场景；运行环境在 Web 端执行时选择';
+      }
+
+      return '仅保存接口概览（无断言）；入库时自动匹配 BETA/PRE/PROD 全部环境 URL';
     }
   },
   watch: {
     visible: function visible(v) {
-      if (v) this.initForm();
+      if (v) this.form.hint = '';
     }
   },
   methods: {
-    initForm: function initForm() {
-      var _this$projects$0$id, _this$projects$;
-
-      var cfg = this.platformConfig || {};
-      var pid = cfg.defaultProductId && this.projects.some(function (p) {
-        return p.id === cfg.defaultProductId;
-      }) ? cfg.defaultProductId : (_this$projects$0$id = (_this$projects$ = this.projects[0]) === null || _this$projects$ === void 0 ? void 0 : _this$projects$.id) !== null && _this$projects$0$id !== void 0 ? _this$projects$0$id : null;
-      this.form.productId = pid;
-      this.form.hint = '';
-    },
     confirm: function confirm() {
-      if (!this.form.productId) {
-        this.$message.warning('请选择归属项目');
-        return;
-      }
-
       this.$emit('confirm', {
-        productId: this.form.productId,
         hint: this.form.hint
       });
     }
@@ -74612,8 +75068,8 @@ function PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render(_c
 });
 // CONCATENATED MODULE: ./src/drawer/components/PlatformIngestDialog.vue?vue&type=script&lang=js
  
-// EXTERNAL MODULE: ./src/drawer/components/PlatformIngestDialog.vue?vue&type=style&index=0&id=386f1be2&scoped=true&lang=css
-var PlatformIngestDialogvue_type_style_index_0_id_386f1be2_scoped_true_lang_css = __webpack_require__("ff79");
+// EXTERNAL MODULE: ./src/drawer/components/PlatformIngestDialog.vue?vue&type=style&index=0&id=513bf69c&scoped=true&lang=css
+var PlatformIngestDialogvue_type_style_index_0_id_513bf69c_scoped_true_lang_css = __webpack_require__("9612");
 
 // CONCATENATED MODULE: ./src/drawer/components/PlatformIngestDialog.vue
 
@@ -74623,12 +75079,9 @@ var PlatformIngestDialogvue_type_style_index_0_id_386f1be2_scoped_true_lang_css 
 
 
 
-const PlatformIngestDialog_exports_ = /*#__PURE__*/exportHelper_default()(PlatformIngestDialogvue_type_script_lang_js, [['render',PlatformIngestDialogvue_type_template_id_386f1be2_scoped_true_render],['__scopeId',"data-v-386f1be2"]])
+const PlatformIngestDialog_exports_ = /*#__PURE__*/exportHelper_default()(PlatformIngestDialogvue_type_script_lang_js, [['render',PlatformIngestDialogvue_type_template_id_513bf69c_scoped_true_render],['__scopeId',"data-v-513bf69c"]])
 
 /* harmony default export */ var PlatformIngestDialog = (PlatformIngestDialog_exports_);
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
-var es_array_join = __webpack_require__("a15b");
-
 // EXTERNAL MODULE: ./node_modules/element-plus/es/components/notification/index.mjs + 4 modules
 var notification = __webpack_require__("2295");
 
@@ -74649,6 +75102,25 @@ function notifyIngestResult(result, mode) {
       message: "".concat(sc.name || '场景', " \xB7 ").concat(sc.step_count || 0, " \u6B65"),
       type: 'success',
       duration: 5000,
+      position: 'top-right'
+    });
+    return;
+  }
+
+  var datasets = (result === null || result === void 0 ? void 0 : result.datasets) || [];
+
+  if (datasets.length) {
+    var _preview = datasets.slice(0, 3).map(function (d) {
+      return d.name || d.dataset_key;
+    }).join('、');
+
+    var _suffix = datasets.length > 3 ? " \u7B49\u5171 ".concat(datasets.length, " \u6761") : " \xB7 \u5171 ".concat(datasets.length, " \u6761");
+
+    Object(notification["a" /* ElNotification */])({
+      title: '测试用例已生成',
+      message: _preview + _suffix,
+      type: 'success',
+      duration: 5500,
       position: 'top-right'
     });
     return;
@@ -74679,73 +75151,7 @@ function notifyIngestResult(result, mode) {
     position: 'top-right'
   });
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/createForOfIteratorHelper.js
-
-
-
-
-
-
-
-
-function _createForOfIteratorHelper(o, allowArrayLike) {
-  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-
-  if (!it) {
-    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-      if (it) o = it;
-      var i = 0;
-
-      var F = function F() {};
-
-      return {
-        s: F,
-        n: function n() {
-          if (i >= o.length) return {
-            done: true
-          };
-          return {
-            done: false,
-            value: o[i++]
-          };
-        },
-        e: function e(_e) {
-          throw _e;
-        },
-        f: F
-      };
-    }
-
-    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-
-  var normalCompletion = true,
-      didErr = false,
-      err;
-  return {
-    s: function s() {
-      it = it.call(o);
-    },
-    n: function n() {
-      var step = it.next();
-      normalCompletion = step.done;
-      return step;
-    },
-    e: function e(_e2) {
-      didErr = true;
-      err = _e2;
-    },
-    f: function f() {
-      try {
-        if (!normalCompletion && it["return"] != null) it["return"]();
-      } finally {
-        if (didErr) throw err;
-      }
-    }
-  };
-}
 // CONCATENATED MODULE: ./src/utils/savedMarks.js
-
 
 
 
@@ -74805,41 +75211,42 @@ function markRecordsSaved(_x, _x2) {
 
 function _markRecordsSaved() {
   _markRecordsSaved = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(records, productId) {
-    var marks, now, _iterator, _step, r, fp;
-
+    var apiIds,
+        marks,
+        now,
+        i,
+        r,
+        apiId,
+        meta,
+        fp,
+        _args2 = arguments;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
+            apiIds = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : [];
+            _context2.next = 3;
             return loadSavedMarks();
 
-          case 2:
+          case 3:
             marks = _context2.sent;
             now = Date.now();
-            _iterator = _createForOfIteratorHelper(records || []);
 
-            try {
-              for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                r = _step.value;
+            for (i = 0; i < (records || []).length; i++) {
+              r = records[i];
+              apiId = apiIds[i] || apiIds[0] || 0;
+              meta = {
+                productId: productId,
+                at: now
+              };
+              if (apiId > 0) meta.apiId = apiId;
 
-                if (r.requestId) {
-                  marks.requestIds[r.requestId] = {
-                    productId: productId,
-                    at: now
-                  };
-                }
-
-                fp = recordFingerprint(r.method, r.url);
-                marks.fingerprints[fp] = {
-                  productId: productId,
-                  at: now
-                };
+              if (r.requestId) {
+                marks.requestIds[r.requestId] = meta;
               }
-            } catch (err) {
-              _iterator.e(err);
-            } finally {
-              _iterator.f();
+
+              fp = recordFingerprint(r.method, r.url);
+              marks.fingerprints[fp] = meta;
             }
 
             _context2.next = 8;
@@ -74855,6 +75262,18 @@ function _markRecordsSaved() {
   return _markRecordsSaved.apply(this, arguments);
 }
 
+function getRecordApiId(record, marks) {
+  var _marks$requestIds$rec, _marks$fingerprints$f;
+
+  if (!record || !marks) return 0;
+
+  if (record.requestId && (_marks$requestIds$rec = marks.requestIds[record.requestId]) !== null && _marks$requestIds$rec !== void 0 && _marks$requestIds$rec.apiId) {
+    return marks.requestIds[record.requestId].apiId;
+  }
+
+  var fp = recordFingerprint(record.method, record.url);
+  return ((_marks$fingerprints$f = marks.fingerprints[fp]) === null || _marks$fingerprints$f === void 0 ? void 0 : _marks$fingerprints$f.apiId) || 0;
+}
 function savedMarks_isRecordSaved(record, marks) {
   if (!record || !marks) return false;
   if (record.requestId && marks.requestIds[record.requestId]) return true;
@@ -74882,8 +75301,14 @@ function savedMarks_isRecordSaved(record, marks) {
 
 
 
-/* global chrome */
 
+
+
+
+
+
+
+/* global chrome */
 
 
 
@@ -74905,6 +75330,7 @@ function savedMarks_isRecordSaved(record, marks) {
       status: 'stopped',
       records: [],
       selectedRows: [],
+      filterText: '',
       starting: false,
       platformConfigVisible: false,
       platformConfig: null,
@@ -74924,7 +75350,43 @@ function savedMarks_isRecordSaved(record, marks) {
       if (this.status === 'recording' || this.status === 'pause') return 'recording';
       if (this.records.length && this.status === 'stopped') return 'review';
       return 'idle';
+    },
+    filteredRecords: function filteredRecords() {
+      var _this = this;
+
+      var q = (this.filterText || '').trim().toLowerCase();
+      if (!q) return this.records;
+      return this.records.filter(function (item) {
+        return _this.recordMatchesFilter(item, q);
+      });
+    },
+    allFilteredSelected: function allFilteredSelected() {
+      var _this2 = this;
+
+      if (!this.filteredRecords.length) return false;
+      return this.filteredRecords.every(function (item) {
+        return _this2.isSelected(item);
+      });
+    },
+    someFilteredSelected: function someFilteredSelected() {
+      var _this3 = this;
+
+      if (!this.filteredRecords.length) return false;
+      var n = this.filteredRecords.filter(function (item) {
+        return _this3.isSelected(item);
+      }).length;
+      return n > 0 && n < this.filteredRecords.length;
+    },
+    canSaveCases: function canSaveCases() {
+      if (this.selectedRows.length !== 1) return false;
+      var row = this.selectedRows[0];
+      if (!savedMarks_isRecordSaved(row, this.savedMarks)) return false;
+      return getRecordApiId(row, this.savedMarks) > 0;
     }
+  },
+  updated: function updated() {
+    var el = this.$refs.selectAllChk;
+    if (el) el.indeterminate = this.someFilteredSelected;
   },
   mounted: function mounted() {
     this.syncHostTabId();
@@ -74972,20 +75434,20 @@ function savedMarks_isRecordSaved(record, marks) {
       if (changes.trafficDraft && this.status === 'recording') this.refreshState();
     },
     syncHostTabId: function syncHostTabId() {
-      var _this = this;
+      var _this4 = this;
 
       chrome.storage.local.get('hostRecordTabId', function (res) {
-        if (res.hostRecordTabId) _this.hostTabId = res.hostRecordTabId;
+        if (res.hostRecordTabId) _this4.hostTabId = res.hostRecordTabId;
       });
     },
     applyState: function applyState(data) {
-      var _this2 = this;
+      var _this5 = this;
 
       this.starting = false;
       this.status = data.status || 'stopped';
       this.records = (data.records || []).map(function (r) {
         return _objectSpread2(_objectSpread2({}, r), {}, {
-          path: r.path || _this2.shortPath(r.url)
+          path: r.path || _this5.shortPath(r.url)
         });
       });
 
@@ -75006,17 +75468,17 @@ function savedMarks_isRecordSaved(record, marks) {
       }
     },
     refreshState: function refreshState() {
-      var _this3 = this;
+      var _this6 = this;
 
       chrome.runtime.sendMessage({
         action: 'get_drawer_state'
       }, function (res) {
         if (chrome.runtime.lastError) return;
-        if (res && res.data) _this3.applyState(res.data);
+        if (res && res.data) _this6.applyState(res.data);
       });
     },
     refreshSavedMarks: function refreshSavedMarks() {
-      var _this4 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -75028,7 +75490,7 @@ function savedMarks_isRecordSaved(record, marks) {
                 return loadSavedMarks();
 
               case 3:
-                _this4.savedMarks = _context.sent;
+                _this7.savedMarks = _context.sent;
                 _context.next = 8;
                 break;
 
@@ -75048,52 +75510,54 @@ function savedMarks_isRecordSaved(record, marks) {
       return savedMarks_isRecordSaved(item, this.savedMarks);
     },
     startRecording: function startRecording() {
-      var _this5 = this;
+      var _this8 = this;
 
       if (this.starting || this.status === 'recording') return;
       this.screen = 'list';
       this.starting = true;
       this.records = [];
       this.selectedRows = [];
+      this.filterText = '';
       chrome.runtime.sendMessage({
         action: 'start_recording'
       }, function (res) {
-        _this5.starting = false;
+        _this8.starting = false;
 
         if (chrome.runtime.lastError) {
-          _this5.$message.error(chrome.runtime.lastError.message);
+          _this8.$message.error(chrome.runtime.lastError.message);
 
           return;
         }
 
         if (!res || !res.ok) {
-          _this5.$message.error('开始录制失败');
+          _this8.$message.error('开始录制失败');
 
           return;
         }
 
-        _this5.applyState(res.data);
+        _this8.applyState(res.data);
       });
     },
     newSession: function newSession() {
       this.screen = 'list';
       this.selectedRows = [];
+      this.filterText = '';
       this.send('clear_records');
     },
     send: function send(action) {
-      var _this6 = this;
+      var _this9 = this;
 
       chrome.runtime.sendMessage({
         action: action,
         tabId: this.hostTabId
       }, function (res) {
         if (chrome.runtime.lastError) {
-          _this6.$message.error(chrome.runtime.lastError.message);
+          _this9.$message.error(chrome.runtime.lastError.message);
 
           return;
         }
 
-        if (res && res.data) _this6.applyState(res.data);
+        if (res && res.data) _this9.applyState(res.data);
       });
     },
     closeDrawer: function closeDrawer() {
@@ -75130,24 +75594,62 @@ function savedMarks_isRecordSaved(record, marks) {
       });
       if (i >= 0) this.selectedRows.splice(i, 1);else this.selectedRows.push(item);
     },
+    toggleSelectAll: function toggleSelectAll() {
+      if (!this.filteredRecords.length) return;
+
+      if (this.allFilteredSelected) {
+        var ids = new Set(this.filteredRecords.map(function (r) {
+          return r.requestId;
+        }));
+        this.selectedRows = this.selectedRows.filter(function (r) {
+          return !ids.has(r.requestId);
+        });
+        return;
+      }
+
+      var existing = new Set(this.selectedRows.map(function (r) {
+        return r.requestId;
+      }));
+
+      var _iterator = _createForOfIteratorHelper(this.filteredRecords),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var item = _step.value;
+
+          if (!existing.has(item.requestId)) {
+            this.selectedRows.push(item);
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    },
+    recordMatchesFilter: function recordMatchesFilter(item, q) {
+      var parts = [item.method, item.path, item.url, item.service, item.host, item.statusCode != null ? String(item.statusCode) : ''];
+      return parts.join(' ').toLowerCase().includes(q);
+    },
     showPlatformConfig: function showPlatformConfig() {
       this.platformConfigVisible = true;
     },
     onPlatformConfigSaved: function onPlatformConfigSaved(config) {
-      var _this7 = this;
+      var _this10 = this;
 
       return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this7.platformConfig = config;
+                _this10.platformConfig = config;
                 _context2.prev = 1;
                 _context2.next = 4;
                 return listProducts(config);
 
               case 4:
-                _this7.platformProjects = _context2.sent;
+                _this10.platformProjects = _context2.sent;
                 _context2.next = 9;
                 break;
 
@@ -75164,7 +75666,7 @@ function savedMarks_isRecordSaved(record, marks) {
       }))();
     },
     ensurePlatformConfig: function ensurePlatformConfig() {
-      var _this8 = this;
+      var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var config;
@@ -75183,16 +75685,16 @@ function savedMarks_isRecordSaved(record, marks) {
                   break;
                 }
 
-                _this8.$message.warning('请先配置测试平台');
+                _this11.$message.warning('请先配置测试平台');
 
-                _this8.showPlatformConfig();
+                _this11.showPlatformConfig();
 
                 return _context3.abrupt("return", null);
 
               case 7:
-                _this8.platformConfig = config;
+                _this11.platformConfig = config;
 
-                if (_this8.platformProjects.length) {
+                if (_this11.platformProjects.length) {
                   _context3.next = 19;
                   break;
                 }
@@ -75202,7 +75704,7 @@ function savedMarks_isRecordSaved(record, marks) {
                 return listProducts(config);
 
               case 12:
-                _this8.platformProjects = _context3.sent;
+                _this11.platformProjects = _context3.sent;
                 _context3.next = 19;
                 break;
 
@@ -75210,7 +75712,7 @@ function savedMarks_isRecordSaved(record, marks) {
                 _context3.prev = 15;
                 _context3.t0 = _context3["catch"](9);
 
-                _this8.$message.error(_context3.t0.message);
+                _this11.$message.error(_context3.t0.message);
 
                 return _context3.abrupt("return", null);
 
@@ -75226,7 +75728,7 @@ function savedMarks_isRecordSaved(record, marks) {
       }))();
     },
     openIngest: function openIngest(mode) {
-      var _this9 = this;
+      var _this12 = this;
 
       var selected = _toConsumableArray(this.selectedRows).sort(function (a, b) {
         return (a.timestamp || 0) - (b.timestamp || 0);
@@ -75237,6 +75739,23 @@ function savedMarks_isRecordSaved(record, marks) {
         return;
       }
 
+      if (mode === 'api_cases') {
+        if (selected.length !== 1) {
+          this.$message.warning('保存用例请只选 1 条已入库接口');
+          return;
+        }
+
+        if (!savedMarks_isRecordSaved(selected[0], this.savedMarks)) {
+          this.$message.warning('请先「保存接口」再生成用例');
+          return;
+        }
+
+        if (getRecordApiId(selected[0], this.savedMarks) <= 0) {
+          this.$message.warning('未找到对应接口 ID，请重新保存接口');
+          return;
+        }
+      }
+
       if (mode === 'scenario' && selected.length < 2) {
         this.$message.warning('保存场景请至少选 2 条');
         return;
@@ -75244,23 +75763,24 @@ function savedMarks_isRecordSaved(record, marks) {
 
       this.ensurePlatformConfig().then(function (c) {
         if (!c) return;
-        _this9.ingestMode = mode;
-        _this9.pendingIngestRecords = selected;
-        _this9.ingestDialogVisible = true;
+        _this12.ingestMode = mode;
+        _this12.pendingIngestRecords = selected;
+        _this12.ingestDialogVisible = true;
       });
     },
     handlePlatformIngest: function handlePlatformIngest(_ref) {
-      var _this10 = this;
+      var _this13 = this;
 
       return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var productId, hint, config, savedRecords, payload, result;
+        var hint, config, savedRecords, payload, result, apiId, _result, apiIds;
+
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                productId = _ref.productId, hint = _ref.hint;
+                hint = _ref.hint;
                 _context4.next = 3;
-                return _this10.ensurePlatformConfig();
+                return _this13.ensurePlatformConfig();
 
               case 3:
                 config = _context4.sent;
@@ -75273,16 +75793,15 @@ function savedMarks_isRecordSaved(record, marks) {
                 return _context4.abrupt("return");
 
               case 6:
-                _this10.ingesting = true;
-                savedRecords = _toConsumableArray(_this10.pendingIngestRecords);
+                _this13.ingesting = true;
+                savedRecords = _toConsumableArray(_this13.pendingIngestRecords);
                 _context4.prev = 8;
                 payload = {
-                  productId: productId,
                   hint: hint,
                   records: savedRecords
                 };
 
-                if (!(_this10.ingestMode === 'scenario')) {
+                if (!(_this13.ingestMode === 'scenario')) {
                   _context4.next = 16;
                   break;
                 }
@@ -75291,75 +75810,82 @@ function savedMarks_isRecordSaved(record, marks) {
                 return ingestScenario(config, payload);
 
               case 13:
-                _context4.t0 = _context4.sent;
-                _context4.next = 19;
+                result = _context4.sent;
+                _context4.next = 26;
                 break;
 
               case 16:
-                _context4.next = 18;
-                return ingestApis(config, payload);
+                if (!(_this13.ingestMode === 'api_cases')) {
+                  _context4.next = 23;
+                  break;
+                }
 
-              case 18:
-                _context4.t0 = _context4.sent;
-
-              case 19:
-                result = _context4.t0;
-                _context4.next = 22;
-                return saveConfig(_objectSpread2(_objectSpread2({}, config), {}, {
-                  defaultProductId: productId
+                apiId = getRecordApiId(savedRecords[0], _this13.savedMarks);
+                _context4.next = 20;
+                return ingestApiCases(config, _objectSpread2(_objectSpread2({}, payload), {}, {
+                  apiId: apiId
                 }));
 
-              case 22:
-                _this10.platformConfig = _objectSpread2(_objectSpread2({}, config), {}, {
-                  defaultProductId: productId
-                });
-                _context4.next = 25;
-                return markRecordsSaved(savedRecords, productId);
-
-              case 25:
-                _context4.next = 27;
-                return _this10.refreshSavedMarks();
-
-              case 27:
-                notifyIngestResult(result, _this10.ingestMode);
-                _this10.ingestDialogVisible = false;
-                _this10.selectedRows = [];
-                _context4.next = 35;
+              case 20:
+                result = _context4.sent;
+                _context4.next = 26;
                 break;
 
+              case 23:
+                _context4.next = 25;
+                return ingestApis(config, payload);
+
+              case 25:
+                result = _context4.sent;
+
+              case 26:
+                if (!(_this13.ingestMode === 'api')) {
+                  _context4.next = 30;
+                  break;
+                }
+
+                apiIds = (((_result = result) === null || _result === void 0 ? void 0 : _result.apis) || []).map(function (a) {
+                  return a.id;
+                });
+                _context4.next = 30;
+                return markRecordsSaved(savedRecords, 1, apiIds);
+
+              case 30:
+                _context4.next = 32;
+                return _this13.refreshSavedMarks();
+
               case 32:
-                _context4.prev = 32;
-                _context4.t1 = _context4["catch"](8);
+                notifyIngestResult(result, _this13.ingestMode);
+                _this13.ingestDialogVisible = false;
+                _this13.selectedRows = [];
+                _context4.next = 40;
+                break;
 
-                _this10.$message.error(_context4.t1.message);
+              case 37:
+                _context4.prev = 37;
+                _context4.t0 = _context4["catch"](8);
 
-              case 35:
-                _context4.prev = 35;
-                _this10.ingesting = false;
-                return _context4.finish(35);
+                _this13.$message.error(_context4.t0.message);
 
-              case 38:
+              case 40:
+                _context4.prev = 40;
+                _this13.ingesting = false;
+                return _context4.finish(40);
+
+              case 43:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[8, 32, 35, 38]]);
+        }, _callee4, null, [[8, 37, 40, 43]]);
       }))();
-    },
-    exportJson: function exportJson() {
-      if (!this.selectedRows.length) {
-        this.$message.warning('请先勾选记录');
-        return;
-      }
-
-      downloadJsonFile(formatExportJson(this.selectedRows, formatHeadersArray), 'RECORD');
     }
   }
 });
 // CONCATENATED MODULE: ./src/drawer/components/RecorderDrawer.vue?vue&type=script&lang=js
  
-// EXTERNAL MODULE: ./src/drawer/components/RecorderDrawer.vue?vue&type=style&index=0&id=f5772274&scoped=true&lang=css
-var RecorderDrawervue_type_style_index_0_id_f5772274_scoped_true_lang_css = __webpack_require__("1185");
+// EXTERNAL MODULE: ./src/drawer/components/RecorderDrawer.vue?vue&type=style&index=0&id=43596994&scoped=true&lang=css
+var RecorderDrawervue_type_style_index_0_id_43596994_scoped_true_lang_css = __webpack_require__("f7c1");
 
 // CONCATENATED MODULE: ./src/drawer/components/RecorderDrawer.vue
 
@@ -75369,7 +75895,7 @@ var RecorderDrawervue_type_style_index_0_id_f5772274_scoped_true_lang_css = __we
 
 
 
-const RecorderDrawer_exports_ = /*#__PURE__*/exportHelper_default()(RecorderDrawervue_type_script_lang_js, [['render',render],['__scopeId',"data-v-f5772274"]])
+const RecorderDrawer_exports_ = /*#__PURE__*/exportHelper_default()(RecorderDrawervue_type_script_lang_js, [['render',render],['__scopeId',"data-v-43596994"]])
 
 /* harmony default export */ var RecorderDrawer = (RecorderDrawer_exports_);
 // EXTERNAL MODULE: ./node_modules/element-plus/es/utils/util.mjs
@@ -75554,7 +76080,7 @@ var rate = __webpack_require__("669b");
 var components_result = __webpack_require__("bafc");
 
 // EXTERNAL MODULE: ./node_modules/element-plus/es/components/row/index.mjs
-var row = __webpack_require__("7f58");
+var components_row = __webpack_require__("7f58");
 
 // EXTERNAL MODULE: ./node_modules/element-plus/es/components/scrollbar/index.mjs + 7 modules
 var scrollbar = __webpack_require__("c5ff");
@@ -75744,7 +76270,7 @@ var Components = [
   components_radio["c" /* ElRadioGroup */],
   rate["a" /* ElRate */],
   components_result["a" /* ElResult */],
-  row["a" /* ElRow */],
+  components_row["a" /* ElRow */],
   scrollbar["a" /* ElScrollbar */],
   components_select["c" /* ElSelect */],
   components_select["a" /* ElOption */],
@@ -90317,6 +90843,19 @@ const ElResult = Object(with_install["a" /* withInstall */])(script);
 
 /***/ }),
 
+/***/ "bb2f":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("d039");
+
+module.exports = !fails(function () {
+  // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
+  return Object.isExtensible(Object.preventExtensions({}));
+});
+
+
+/***/ }),
+
 /***/ "bb8b":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -99771,6 +100310,23 @@ $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
 
 /***/ }),
 
+/***/ "d86b":
+/***/ (function(module, exports, __webpack_require__) {
+
+// FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
+var fails = __webpack_require__("d039");
+
+module.exports = fails(function () {
+  if (typeof ArrayBuffer == 'function') {
+    var buffer = new ArrayBuffer(8);
+    // eslint-disable-next-line es/no-object-isextensible, es/no-object-defineproperty -- safe
+    if (Object.isExtensible(buffer)) Object.defineProperty(buffer, 'a', { value: 8 });
+  }
+});
+
+
+/***/ }),
+
 /***/ "d89f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -109111,6 +109667,102 @@ exports["default"] = documentDelete;
 
 /***/ }),
 
+/***/ "f183":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("23e7");
+var uncurryThis = __webpack_require__("e330");
+var hiddenKeys = __webpack_require__("d012");
+var isObject = __webpack_require__("861d");
+var hasOwn = __webpack_require__("1a2d");
+var defineProperty = __webpack_require__("9bf2").f;
+var getOwnPropertyNamesModule = __webpack_require__("241c");
+var getOwnPropertyNamesExternalModule = __webpack_require__("057f");
+var isExtensible = __webpack_require__("4fadd");
+var uid = __webpack_require__("90e3");
+var FREEZING = __webpack_require__("bb2f");
+
+var REQUIRED = false;
+var METADATA = uid('meta');
+var id = 0;
+
+var setMetadata = function (it) {
+  defineProperty(it, METADATA, { value: {
+    objectID: 'O' + id++, // object ID
+    weakData: {}          // weak collections IDs
+  } });
+};
+
+var fastKey = function (it, create) {
+  // return a primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!hasOwn(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMetadata(it);
+  // return object ID
+  } return it[METADATA].objectID;
+};
+
+var getWeakData = function (it, create) {
+  if (!hasOwn(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMetadata(it);
+  // return the store of weak collections IDs
+  } return it[METADATA].weakData;
+};
+
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZING && REQUIRED && isExtensible(it) && !hasOwn(it, METADATA)) setMetadata(it);
+  return it;
+};
+
+var enable = function () {
+  meta.enable = function () { /* empty */ };
+  REQUIRED = true;
+  var getOwnPropertyNames = getOwnPropertyNamesModule.f;
+  var splice = uncurryThis([].splice);
+  var test = {};
+  test[METADATA] = 1;
+
+  // prevent exposing of metadata key
+  if (getOwnPropertyNames(test).length) {
+    getOwnPropertyNamesModule.f = function (it) {
+      var result = getOwnPropertyNames(it);
+      for (var i = 0, length = result.length; i < length; i++) {
+        if (result[i] === METADATA) {
+          splice(result, i, 1);
+          break;
+        }
+      } return result;
+    };
+
+    $({ target: 'Object', stat: true, forced: true }, {
+      getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
+    });
+  }
+};
+
+var meta = module.exports = {
+  enable: enable,
+  fastKey: fastKey,
+  getWeakData: getWeakData,
+  onFreeze: onFreeze
+};
+
+hiddenKeys[METADATA] = true;
+
+
+/***/ }),
+
 /***/ "f19b":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -110930,6 +111582,17 @@ var keys = shared('keys');
 module.exports = function (key) {
   return keys[key] || (keys[key] = uid(key));
 };
+
+
+/***/ }),
+
+/***/ "f7c1":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_RecorderDrawer_vue_vue_type_style_index_0_id_43596994_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("21a6");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_RecorderDrawer_vue_vue_type_style_index_0_id_43596994_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_RecorderDrawer_vue_vue_type_style_index_0_id_43596994_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -113030,17 +113693,6 @@ exports["default"] = orange;
 var global = __webpack_require__("da84");
 
 module.exports = global.Promise;
-
-
-/***/ }),
-
-/***/ "ff79":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_PlatformIngestDialog_vue_vue_type_style_index_0_id_386f1be2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("18bc");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_PlatformIngestDialog_vue_vue_type_style_index_0_id_386f1be2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_7_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_7_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_1_1_PlatformIngestDialog_vue_vue_type_style_index_0_id_386f1be2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),

@@ -153,11 +153,23 @@ function stringifyBody(body) {
 }
 
 /**
- * AI 入库：接口定义（自动分组）
+ * AI 入库：接口定义（仅概览，不含断言）
  */
 export async function ingestApis(config, { hint, records }) {
   return ingest(config, {
     mode: 'api',
+    hint: hint || '',
+    records: trafficToRecords(records)
+  })
+}
+
+/**
+ * AI 入库：单接口多案例（test_datasets + 断言）
+ */
+export async function ingestApiCases(config, { apiId, hint, records }) {
+  return ingest(config, {
+    mode: 'api_cases',
+    api_id: apiId,
     hint: hint || '',
     records: trafficToRecords(records)
   })
